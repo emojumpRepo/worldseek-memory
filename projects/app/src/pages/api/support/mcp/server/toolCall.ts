@@ -24,10 +24,10 @@ import {
   storeEdges2RuntimeEdges,
   storeNodes2RuntimeNodes
 } from '@fastgpt/global/core/workflow/runtime/utils';
-import { WORKFLOW_MAX_RUN_TIMES } from '@fastgpt/service/core/workflow/constants';
-import { dispatchWorkFlow } from '@fastgpt/service/core/workflow/dispatch';
+// import { WORKFLOW_MAX_RUN_TIMES } from '@fastgpt/service/core/workflow/constants';
+// import { dispatchWorkFlow } from '@fastgpt/service/core/workflow/dispatch';
 import { getChatTitleFromChatMessage, removeEmptyUserInput } from '@fastgpt/global/core/chat/utils';
-import { saveChat } from '@fastgpt/service/core/chat/saveChat';
+// import { saveChat } from '@fastgpt/service/core/chat/saveChat';
 import { DispatchNodeResponseKeyEnum } from '@fastgpt/global/core/workflow/runtime/constants';
 import { createChatUsage } from '@fastgpt/service/support/wallet/usage/controller';
 import { UsageSourceEnum } from '@fastgpt/global/support/wallet/usage/constants';
@@ -106,8 +106,8 @@ const dispatchApp = async (app: AppSchema, variables: Record<string, any>) => {
     query: removeEmptyUserInput(userQuestion.value),
     chatConfig,
     histories: [],
-    stream: false,
-    maxRunTimes: WORKFLOW_MAX_RUN_TIMES
+    stream: false
+    // maxRunTimes: WORKFLOW_MAX_RUN_TIMES
   });
 
   // Save chat

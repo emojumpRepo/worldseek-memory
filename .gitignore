@@ -45,3 +45,9 @@ files/helm/fastgpt/charts/*.tgz
 
 tmp/
 coverage
+
+fastgpt/*
+fastgpt/aiproxy_pg
+fastgpt/mongo
+fastgpt/pg
+fastgpt/redis
