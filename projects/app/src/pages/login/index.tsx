@@ -15,7 +15,6 @@ import { useSystemStore } from '@/web/common/system/useSystemStore';
 import type { ResLogin } from '@/global/support/api/userRes.d';
 import { useRouter } from 'next/router';
 import { useUserStore } from '@/web/support/user/useUserStore';
-import { useChatStore } from '@/web/core/chat/context/useChatStore';
 import dynamic from 'next/dynamic';
 import { serviceSideProps } from '@/web/common/i18n/utils';
 import { clearToken } from '@/web/support/user/auth';
@@ -45,7 +44,6 @@ const Login = ({ ChineseRedirectUrl }: { ChineseRedirectUrl: string }) => {
   const { feConfigs } = useSystemStore();
   const [pageType, setPageType] = useState<`${LoginPageTypeEnum}`>(LoginPageTypeEnum.passwordLogin);
   const { setUserInfo } = useUserStore();
-  const { setLastChatAppId } = useChatStore();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { isPc } = useSystem();
   const { toast } = useToast();
@@ -66,9 +64,7 @@ const Login = ({ ChineseRedirectUrl }: { ChineseRedirectUrl: string }) => {
       const decodeLastRoute = decodeURIComponent(lastRoute);
       // 检查是否是当前的 route
       const navigateTo =
-        decodeLastRoute && !decodeLastRoute.includes('/login')
-          ? decodeLastRoute
-          : '/dashboard/apps';
+        decodeLastRoute && !decodeLastRoute.includes('/login') ? decodeLastRoute : '/dataset/list';
       router.push(navigateTo);
     },
     [setUserInfo, lastRoute, router]
@@ -98,10 +94,7 @@ const Login = ({ ChineseRedirectUrl }: { ChineseRedirectUrl: string }) => {
     setPageType(
       feConfigs?.oauth?.wechat ? LoginPageTypeEnum.wechat : LoginPageTypeEnum.passwordLogin
     );
-
-    // init store
-    setLastChatAppId('');
-  }, [feConfigs?.oauth, setLastChatAppId]);
+  }, [feConfigs?.oauth?.wechat]);
 
   const {
     isOpen: isOpenRedirect,
@@ -131,7 +124,7 @@ const Login = ({ ChineseRedirectUrl }: { ChineseRedirectUrl: string }) => {
 
   useMount(() => {
     clearToken();
-    router.prefetch('/dashboard/apps');
+    router.prefetch('/dataset/list');
 
     ChineseRedirectUrl && showRedirect && checkIpInChina();
     localCookieVersion !== cookieVersion && onOpenCookiesDrawer();

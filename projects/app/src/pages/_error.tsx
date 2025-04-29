@@ -46,9 +46,9 @@ function Error() {
 
     setTimeout(() => {
       if (modelError) {
-        router.push('/account/model');
+        router.push('/dataset/list');
       } else {
-        router.push('/dashboard/apps');
+        router.push('/dataset/list');
       }
     }, 2000);
   }, []);

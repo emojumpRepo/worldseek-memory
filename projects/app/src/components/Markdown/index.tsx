@@ -22,8 +22,6 @@ const IframeHtmlCodeBlock = dynamic(() => import('./codeBlock/iframe-html'), { s
 const VideoBlock = dynamic(() => import('./codeBlock/Video'), { ssr: false });
 const AudioBlock = dynamic(() => import('./codeBlock/Audio'), { ssr: false });
 
-const ChatGuide = dynamic(() => import('./chat/Guide'), { ssr: false });
-const QuestionGuide = dynamic(() => import('./chat/QuestionGuide'), { ssr: false });
 const A = dynamic(() => import('./A'), { ssr: false });
 
 type Props = {
@@ -92,12 +90,6 @@ function Code(e: any) {
   const Component = useMemo(() => {
     if (codeType === CodeClassNameEnum.mermaid) {
       return <MermaidCodeBlock code={strChildren} />;
-    }
-    if (codeType === CodeClassNameEnum.guide) {
-      return <ChatGuide text={strChildren} />;
-    }
-    if (codeType === CodeClassNameEnum.questionguide) {
-      return <QuestionGuide text={strChildren} />;
     }
     if (codeType === CodeClassNameEnum.echarts) {
       return <EChartsCodeBlock code={strChildren} />;

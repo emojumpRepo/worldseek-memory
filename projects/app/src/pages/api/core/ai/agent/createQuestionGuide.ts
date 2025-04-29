@@ -14,7 +14,6 @@ import { authOutLinkInit } from '@/service/support/permission/auth/outLink';
 import { authTeamSpaceToken } from '@/service/support/permission/auth/team';
 import { MongoTeamMember } from '@fastgpt/service/support/user/team/teamMemberSchema';
 import { TeamMemberRoleEnum } from '@fastgpt/global/support/user/team/constant';
-import { ChatErrEnum } from '@fastgpt/global/common/error/code/chat';
 import { authCert } from '@fastgpt/service/support/permission/auth/common';
 import { getDefaultLLMModel } from '@fastgpt/service/core/ai/model';
 
@@ -106,7 +105,7 @@ async function authChatCert(props: AuthModeType): Promise<{
       'tmbId'
     ).lean();
 
-    if (!tmb) return Promise.reject(ChatErrEnum.unAuthChat);
+    if (!tmb) return Promise.reject(new Error('unAuthChat'));
 
     return {
       teamId,
