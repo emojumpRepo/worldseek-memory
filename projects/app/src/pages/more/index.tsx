@@ -13,11 +13,6 @@ const More = () => {
   const router = useRouter();
   const { feConfigs } = useSystemStore();
   const list = [
-    {
-      icon: 'phoneTabbar/tool',
-      label: t('common:navbar.Toolkit'),
-      link: '/toolkit'
-    },
     ...(feConfigs?.docUrl
       ? [
           {

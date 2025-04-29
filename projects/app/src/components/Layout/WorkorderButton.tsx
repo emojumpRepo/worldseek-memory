@@ -12,9 +12,7 @@ import { useRouter } from 'next/router';
 import { useMemo } from 'react';
 
 const WorkOrderShowRouter: { [key: string]: boolean } = {
-  '/dashboard/apps': true,
-  '/dataset/list': true,
-  '/toolkit': true
+  '/dataset/list': true
 };
 
 function WorkorderButton() {

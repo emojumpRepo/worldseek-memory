@@ -1,7 +1,6 @@
 import React, { useMemo } from 'react';
 import { useRouter } from 'next/router';
 import { Flex, Box } from '@chakra-ui/react';
-import { useChatStore } from '@/web/core/chat/context/useChatStore';
 import { useTranslation } from 'next-i18next';
 import Badge from '../Badge';
 import MyIcon from '@fastgpt/web/components/common/Icon';
@@ -9,31 +8,8 @@ import MyIcon from '@fastgpt/web/components/common/Icon';
 const NavbarPhone = ({ unread }: { unread: number }) => {
   const router = useRouter();
   const { t } = useTranslation();
-  const { lastChatAppId } = useChatStore();
   const navbarList = useMemo(
     () => [
-      {
-        label: t('common:navbar.Chat'),
-        icon: 'core/chat/chatLight',
-        activeIcon: 'core/chat/chatFill',
-        link: `/chat?appId=${lastChatAppId}`,
-        activeLink: ['/chat'],
-        unread: 0
-      },
-      {
-        label: t('common:navbar.Studio'),
-        icon: 'core/app/aiLight',
-        activeIcon: 'core/app/aiFill',
-        link: `/dashboard/apps`,
-        activeLink: [
-          '/dashboard/apps',
-          '/app/detail',
-          '/dashboard/templateMarket',
-          '/dashboard/[pluginGroupId]',
-          '/dashboard/mcpServer'
-        ],
-        unread: 0
-      },
       {
         label: t('common:navbar.Datasets'),
         icon: 'core/dataset/datasetLight',
@@ -61,7 +37,7 @@ const NavbarPhone = ({ unread }: { unread: number }) => {
         unread
       }
     ],
-    [t, lastChatAppId, unread]
+    [t, unread] // 当这些值变化时，重新计算 navbarList
   );
 
   return (

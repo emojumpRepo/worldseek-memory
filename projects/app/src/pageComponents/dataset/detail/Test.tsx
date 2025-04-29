@@ -30,7 +30,7 @@ import QuestionTip from '@fastgpt/web/components/common/MyTooltip/QuestionTip';
 
 const nanoid = customAlphabet('abcdefghijklmnopqrstuvwxyz1234567890', 12);
 
-const DatasetParamsModal = dynamic(() => import('@/components/core/app/DatasetParamsModal'));
+// const DatasetParamsModal = dynamic(() => import('@/components/core/app/DatasetParamsModal'));
 
 type FormType = {
   inputText: string;
@@ -300,7 +300,7 @@ const Test = ({ datasetId }: { datasetId: string }) => {
         <TestResults datasetTestItem={datasetTestItem} />
       </Box>
 
-      {isOpenSelectMode && (
+      {/* {isOpenSelectMode && (
         <DatasetParamsModal
           {...searchParams}
           maxTokens={20000}
@@ -312,7 +312,7 @@ const Test = ({ datasetId }: { datasetId: string }) => {
             });
           }}
         />
-      )}
+      )} */}
       <File onSelect={onSelectFile} />
     </Box>
   );

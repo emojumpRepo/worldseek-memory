@@ -25,13 +25,7 @@ type AppPropsWithLayout = AppProps & {
 };
 
 // 哪些路由有自定义 Head
-const routesWithCustomHead = [
-  '/chat',
-  '/chat/share',
-  'chat/team',
-  '/app/detail/',
-  '/dataset/detail'
-];
+const routesWithCustomHead = ['/app/detail/', '/dataset/detail'];
 
 function App({ Component, pageProps }: AppPropsWithLayout) {
   const { feConfigs, scripts, title } = useInitApp();

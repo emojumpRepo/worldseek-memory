@@ -103,7 +103,6 @@ export const iconPaths = {
   'common/text/t': () => import('./icons/common/text/t.svg'),
   'common/thirdParty': () => import('./icons/common/thirdParty.svg'),
   'common/tickFill': () => import('./icons/common/tickFill.svg'),
-  'common/toolkit': () => import('./icons/common/toolkit.svg'),
   'common/trash': () => import('./icons/common/trash.svg'),
   'common/upRightArrowLight': () => import('./icons/common/upRightArrowLight.svg'),
   'common/uploadFileFill': () => import('./icons/common/uploadFileFill.svg'),
@@ -136,7 +135,6 @@ export const iconPaths = {
   'core/app/simpleBot': () => import('./icons/core/app/simpleBot.svg'),
   'core/app/simpleMode/ai': () => import('./icons/core/app/simpleMode/ai.svg'),
   'core/app/simpleMode/autoExec': () => import('./icons/core/app/simpleMode/autoExec.svg'),
-  'core/app/simpleMode/chat': () => import('./icons/core/app/simpleMode/chat.svg'),
   'core/app/simpleMode/dataset': () => import('./icons/core/app/simpleMode/dataset.svg'),
   'core/app/simpleMode/file': () => import('./icons/core/app/simpleMode/file.svg'),
   'core/app/simpleMode/template': () => import('./icons/core/app/simpleMode/template.svg'),
@@ -327,10 +325,6 @@ export const iconPaths = {
   'core/workflow/template/toolCall': () => import('./icons/core/workflow/template/toolCall.svg'),
   'core/workflow/template/toolParams': () =>
     import('./icons/core/workflow/template/toolParams.svg'),
-  'core/workflow/template/toolkitActive': () =>
-    import('./icons/core/workflow/template/toolkitActive.svg'),
-  'core/workflow/template/toolkitInactive': () =>
-    import('./icons/core/workflow/template/toolkitInactive.svg'),
   'core/workflow/template/userSelect': () =>
     import('./icons/core/workflow/template/userSelect.svg'),
   'core/workflow/template/variable': () => import('./icons/core/workflow/template/variable.svg'),

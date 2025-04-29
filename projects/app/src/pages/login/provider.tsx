@@ -27,7 +27,7 @@ const provider = () => {
       setUserInfo(res.user);
 
       router.push(
-        loginStore?.lastRoute ? decodeURIComponent(loginStore?.lastRoute) : '/dashboard/apps'
+        loginStore?.lastRoute ? decodeURIComponent(loginStore?.lastRoute) : '/dataset/list'
       );
     },
     [setUserInfo, router, loginStore?.lastRoute]
@@ -97,7 +97,7 @@ const provider = () => {
 
     (async () => {
       await clearToken();
-      router.prefetch('/dashboard/apps');
+      router.prefetch('/dataset/list');
 
       if (loginStore && loginStore.provider !== 'sso' && state !== loginStore.state) {
         toast({
