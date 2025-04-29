@@ -10,9 +10,9 @@ import MyBox from '@fastgpt/web/components/common/MyBox';
 import { navbarWidth } from '@/components/Layout';
 import Avatar from '@fastgpt/web/components/common/Avatar';
 import { useRequest2 } from '@fastgpt/web/hooks/useRequest';
-import { getTemplateMarketItemList, getTemplateTagList } from '@/web/core/app/api/template';
+// import { getTemplateMarketItemList, getTemplateTagList } from '@/web/core/app/api/template';
 import { AppTemplateSchemaType, TemplateTypeSchemaType } from '@fastgpt/global/core/app/type';
-import { getPluginGroups } from '@/web/core/app/api/plugin';
+// import { getPluginGroups } from '@/web/core/app/api/plugin';
 import { PluginGroupSchemaType } from '@fastgpt/service/core/app/plugin/type';
 
 export enum TabEnum {
