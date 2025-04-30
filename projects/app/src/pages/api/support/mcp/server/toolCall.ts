@@ -6,7 +6,6 @@ import { MongoApp } from '@fastgpt/service/core/app/schema';
 import { AppTypeEnum } from '@fastgpt/global/core/app/constants';
 import { AppSchema } from '@fastgpt/global/core/app/type';
 import { getUserChatInfoAndAuthTeamPoints } from '@fastgpt/service/support/permission/auth/team';
-import { getAppLatestVersion } from '@fastgpt/service/core/app/version/controller';
 import { getNanoid } from '@fastgpt/global/common/string/tools';
 import { AIChatItemType, UserChatItemType } from '@fastgpt/global/core/chat/type';
 import {
