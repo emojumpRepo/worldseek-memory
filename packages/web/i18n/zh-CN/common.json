@@ -20,6 +20,8 @@
   "FAQ.switch_package_a": "套餐使用规则为优先使用更高级的套餐，因此，购买的新套餐若比当前套餐更高级，则新套餐立即生效：否则将继续使用当前套餐。",
   "FAQ.switch_package_q": "是否切换订阅套餐？",
   "Folder": "文件夹",
+  "Folder_tip": "新建文件夹",
+  "Confirm_tip": "确认",
   "Instructions": "使用说明",
   "Login": "登录",
   "Move": "移动",

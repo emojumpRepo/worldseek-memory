@@ -1,5 +1,17 @@
 import React, { useCallback, useMemo, useState } from 'react';
-import { Box, Flex, Button, InputGroup, InputLeftElement, Input } from '@chakra-ui/react';
+import {
+  Box,
+  Flex,
+  Button,
+  InputGroup,
+  InputLeftElement,
+  Input,
+  ModalBody,
+  Text,
+  Grid,
+  VStack,
+  Card
+} from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { serviceSideProps } from '@/web/common/i18n/utils';
@@ -30,6 +42,7 @@ import { useToast } from '@fastgpt/web/hooks/useToast';
 import MyBox from '@fastgpt/web/components/common/MyBox';
 import { useSystemStore } from '@/web/common/system/useSystemStore';
 import { PermissionValueType } from '@fastgpt/global/support/permission/type';
+import MyModal from '@fastgpt/web/components/common/MyModal';
 
 const EditFolderModal = dynamic(
   () => import('@fastgpt/web/components/common/MyModal/EditFolderModal')
@@ -62,6 +75,8 @@ const Dataset = () => {
   const { toast } = useToast();
   const [editFolderData, setEditFolderData] = useState<EditFolderFormType>();
   const [createDatasetType, setCreateDatasetType] = useState<CreateDatasetType>();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedType, setSelectedType] = useState<CreateDatasetType | null>(null);
 
   const onSelectDatasetType = useCallback(
     (e: CreateDatasetType) => {
@@ -98,6 +113,33 @@ const Dataset = () => {
       </InputGroup>
     ),
     [searchKey, setSearchKey, t]
+  );
+
+  const datasetTypes = useMemo(
+    () => [
+      {
+        type: DatasetTypeEnum.dataset,
+        icon: 'core/dataset/commonDatasetColor' as const,
+        iconColor: 'blue.500',
+        title: t('dataset:common_dataset'),
+        description: t('dataset:common_dataset_desc')
+      },
+      {
+        type: DatasetTypeEnum.apiDataset,
+        icon: 'core/dataset/externalDatasetColor' as const,
+        iconColor: 'green.500',
+        title: t('dataset:api_file'),
+        description: t('dataset:external_file_dataset_desc')
+      },
+      {
+        type: DatasetTypeEnum.websiteDataset,
+        icon: 'core/dataset/websiteDatasetColor' as const,
+        iconColor: 'purple.500',
+        title: t('dataset:website_dataset'),
+        description: t('dataset:website_dataset_desc')
+      }
+    ],
+    [t]
   );
 
   return (
@@ -141,63 +183,83 @@ const Dataset = () => {
               ? folderDetail.permission.hasWritePer
               : userInfo?.team?.permission.hasDatasetCreatePer) && (
               <Box pl={[0, 4]}>
-                <MyMenu
-                  size="md"
-                  offset={[0, 10]}
-                  Button={
-                    <Button variant={'primary'} px="0">
-                      <Flex alignItems={'center'} px={5}>
-                        <AddIcon mr={2} />
-                        <Box>{t('common:new_create')}</Box>
-                      </Flex>
-                    </Button>
-                  }
-                  menuList={[
-                    {
-                      children: [
-                        {
-                          icon: 'core/dataset/commonDatasetColor',
-                          label: t('dataset:common_dataset'),
-                          description: t('dataset:common_dataset_desc'),
-                          onClick: () => onSelectDatasetType(DatasetTypeEnum.dataset)
-                        },
-                        {
-                          icon: 'core/dataset/externalDatasetColor',
-                          label: t('dataset:api_file'),
-                          description: t('dataset:external_file_dataset_desc'),
-                          onClick: () => onSelectDatasetType(DatasetTypeEnum.apiDataset)
-                        },
-                        {
-                          icon: 'core/dataset/websiteDatasetColor',
-                          label: t('dataset:website_dataset'),
-                          description: t('dataset:website_dataset_desc'),
-                          onClick: () => onSelectDatasetType(DatasetTypeEnum.websiteDataset)
-                        },
-                        {
-                          icon: 'core/dataset/feishuDatasetColor',
-                          label: t('dataset:feishu_dataset'),
-                          description: t('dataset:feishu_dataset_desc'),
-                          onClick: () => onSelectDatasetType(DatasetTypeEnum.feishu)
-                        },
-                        {
-                          icon: 'core/dataset/yuqueDatasetColor',
-                          label: t('dataset:yuque_dataset'),
-                          description: t('dataset:yuque_dataset_desc'),
-                          onClick: () => onSelectDatasetType(DatasetTypeEnum.yuque)
+                {/* <Button variant={'primary'} px={5} onClick={() => setIsModalOpen(true)}>
+                  <Flex alignItems={'center'}>
+                    <AddIcon mr={2} />
+                    <Box>{t('common:new_create')}</Box>
+                  </Flex>
+                </Button> */}
+
+                <MyModal
+                  isOpen={isModalOpen}
+                  onClose={() => {
+                    setIsModalOpen(false);
+                    setSelectedType(null);
+                  }}
+                  isCentered={!isPc}
+                  w={'600px'}
+                  title={t('common:new_create')}
+                >
+                  <ModalBody p={6}>
+                    <Box mb={6}>
+                      <Grid templateColumns="repeat(3, 1fr)" gap={6}>
+                        {datasetTypes.map((dataset) => (
+                          <Card
+                            key={dataset.type}
+                            as="button"
+                            onClick={() => setSelectedType(dataset.type as CreateDatasetType)}
+                            p={6}
+                            cursor="pointer"
+                            _hover={{ shadow: 'md' }}
+                            bg={selectedType === dataset.type ? 'blue.50' : 'white'}
+                            border="2px solid"
+                            borderColor={selectedType === dataset.type ? 'blue.500' : 'white'}
+                          >
+                            <VStack spacing={4} align="center">
+                              <MyIcon name={dataset.icon} w="12" h="12" color={dataset.iconColor} />
+                              <Text fontWeight="bold">{dataset.title}</Text>
+                              <Text fontSize="sm" color="gray.500" textAlign="center">
+                                {dataset.description}
+                              </Text>
+                            </VStack>
+                          </Card>
+                        ))}
+                      </Grid>
+                    </Box>
+
+                    {/* 底部按钮区域 */}
+                    <Flex justify="space-between" align="center" mt={6}>
+                      {/* 左侧新建文件夹按钮 */}
+                      <Button
+                        variant="ghost"
+                        leftIcon={
+                          <MyIcon name="common/folderFill" w="4" h="4" color="myGray.600" />
                         }
-                      ]
-                    },
-                    {
-                      children: [
-                        {
-                          icon: FolderIcon,
-                          label: t('common:Folder'),
-                          onClick: () => setEditFolderData({})
-                        }
-                      ]
-                    }
-                  ]}
-                />
+                        onClick={() => {
+                          setEditFolderData({});
+                          setIsModalOpen(false);
+                        }}
+                      >
+                        {t('common:Folder_tip')}
+                      </Button>
+
+                      {/* 右侧确认按钮 */}
+                      <Button
+                        variant="primary"
+                        onClick={() => {
+                          if (selectedType) {
+                            onSelectDatasetType(selectedType as CreateDatasetType);
+                            setIsModalOpen(false);
+                            setSelectedType(null);
+                          }
+                        }}
+                        isDisabled={!selectedType}
+                      >
+                        {t('common:Confirm_tip')}
+                      </Button>
+                    </Flex>
+                  </ModalBody>
+                </MyModal>
               </Box>
             )}
           </Flex>
@@ -205,7 +267,7 @@ const Dataset = () => {
           {!isPc && <Box mt={2}>{RenderSearchInput}</Box>}
 
           <Box flexGrow={1}>
-            <List />
+            <List setIsModalOpen={setIsModalOpen} />
           </Box>
         </Flex>
 
