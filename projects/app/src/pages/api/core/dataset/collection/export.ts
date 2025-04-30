@@ -1,5 +1,4 @@
 import { NextAPI } from '@/service/middleware/entry';
-import { authChatCrud, authCollectionInChat } from '@/service/support/permission/auth/chat';
 import { DatasetErrEnum } from '@fastgpt/global/common/error/code/dataset';
 import { OutLinkChatAuthProps } from '@fastgpt/global/support/permission/chat';
 import { ReadPermissionVal } from '@fastgpt/global/support/permission/constant';
@@ -15,66 +14,19 @@ import { NextApiResponse } from 'next';
 
 export type ExportCollectionBody = {
   collectionId: string;
-
-  appId?: string;
-  chatId?: string;
-  chatItemDataId?: string;
-  chatTime: Date;
+  chatTime?: Date;
 } & OutLinkChatAuthProps;
 
 async function handler(req: ApiRequestProps<ExportCollectionBody, {}>, res: NextApiResponse) {
-  const {
-    collectionId,
-    appId,
-    chatId,
-    chatItemDataId,
-    shareId,
-    outLinkUid,
-    teamId,
-    teamToken,
-    chatTime
-  } = req.body;
+  const { collectionId, chatTime } = req.body;
 
-  const { collection, teamId: userTeamId } = await (async () => {
-    if (!appId || !chatId || !chatItemDataId) {
-      return authDatasetCollection({
-        req,
-        authToken: true,
-        authApiKey: true,
-        collectionId: req.body.collectionId,
-        per: ReadPermissionVal
-      });
-    }
-
-    /* 
-      1. auth chat read permission
-      2. auth collection quote in chat
-      3. auth outlink open show quote
-    */
-    const [authRes, collection] = await Promise.all([
-      authChatCrud({
-        req,
-        authToken: true,
-        appId,
-        chatId,
-        shareId,
-        outLinkUid,
-        teamId,
-        teamToken
-      }),
-      getCollectionWithDataset(collectionId),
-      authCollectionInChat({ appId, chatId, chatItemDataId, collectionIds: [collectionId] })
-    ]);
-
-    if (!authRes.showRawSource) {
-      return Promise.reject(DatasetErrEnum.unAuthDatasetFile);
-    }
-
-    return {
-      ...authRes,
-      collection
-    };
-  })();
+  const { collection, teamId: userTeamId } = await authDatasetCollection({
+    req,
+    authToken: true,
+    authApiKey: true,
+    collectionId: req.body.collectionId,
+    per: ReadPermissionVal
+  });
 
   const where = {
     teamId: userTeamId,
@@ -108,7 +60,7 @@ async function handler(req: ApiRequestProps<ExportCollectionBody, {}>, res: Next
 
   write(`\uFEFFindex,content`);
 
-  cursor.on('data', (doc) => {
+  cursor.on('data', (doc: { q: string; a: string }) => {
     const q = doc.q.replace(/"/g, '""') || '';
     const a = doc.a.replace(/"/g, '""') || '';
 
@@ -120,7 +72,7 @@ async function handler(req: ApiRequestProps<ExportCollectionBody, {}>, res: Next
     res.end();
   });
 
-  cursor.on('error', (err) => {
+  cursor.on('error', (err: Error) => {
     addLog.error(`export usage error`, err);
     res.status(500);
     res.end();
