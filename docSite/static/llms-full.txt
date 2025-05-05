@@ -4839,20 +4839,6 @@ curl --location --request POST 'http://localhost:3000/api/core/chat/feedback/upd
 {{< tab tabName="请求示例" >}}
 {{< markdownify >}}
 
-```bash
-curl --location --request POST 'http://localhost:3000/api/core/ai/agent/v2/createQuestionGuide' \
---header 'Authorization: Bearer {{apikey}}' \
---header 'Content-Type: application/json' \
---data-raw '{
-    "appId": "appId",
-    "chatId": "chatId",
-    "questionGuide": {
-        "open": true,
-        "model": "GPT-4o-mini",
-        "customPrompt": "你是一个智能助手，请根据用户的问题生成猜你想问。"
-    }
-}'
-```
 
 {{< /markdownify >}}
 {{< /tab >}}
@@ -4867,18 +4853,6 @@ curl --location --request POST 'http://localhost:3000/api/core/ai/agent/v2/creat
 | appId | string | ✅ | 应用 Id |
 | chatId | string | ✅ | 对话 Id |
 | questionGuide | object |  | 自定义配置，不传的话，则会根据 appId，取最新发布版本的配置 |
-
-```ts
-type CreateQuestionGuideParams = OutLinkChatAuthProps & {
-  appId: string;
-  chatId: string;
-  questionGuide?: {
-    open: boolean;
-    model?: string;
-    customPrompt?: string;
-  };
-};
-```
 
 {{% /alert %}}
 
@@ -4911,24 +4885,6 @@ type CreateQuestionGuideParams = OutLinkChatAuthProps & {
 {{< tabs tabTotal="3" >}}
 {{< tab tabName="请求示例" >}}
 {{< markdownify >}}
-
-```bash
-curl --location --request POST 'http://localhost:3000/api/core/ai/agent/createQuestionGuide' \
---header 'Authorization: Bearer {{apikey}}' \
---header 'Content-Type: application/json' \
---data-raw '{
-    "messages":[
-        {
-            "role": "user",
-            "content": "你好"
-        },
-        {
-            "role": "assistant",
-            "content": "你好！有什么我可以帮助你的吗？"
-        }
-    ]
-}'
-```
 
 {{< /markdownify >}}
 {{< /tab >}}

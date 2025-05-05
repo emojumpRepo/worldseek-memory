@@ -35,9 +35,7 @@ async function handler(
     vectorModel = getDefaultEmbeddingModel()?.model,
     agentModel = getDatasetModel()?.model,
     vlmModel,
-    apiServer,
-    feishuServer,
-    yuqueServer
+    apiServer
   } = req.body;
 
   // auth
@@ -83,9 +81,7 @@ async function handler(
           vlmModel,
           avatar,
           type,
-          apiServer,
-          feishuServer,
-          yuqueServer
+          apiServer
         }
       ],
       { session, ordered: true }
