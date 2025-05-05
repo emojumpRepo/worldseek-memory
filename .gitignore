@@ -17,6 +17,8 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
+# local env files
+
 # vercel
 .vercel
 
@@ -43,6 +45,7 @@ files/helm/fastgpt/charts/*.tgz
 tmp/
 coverage
 
+fastgpt
 fastgpt/*
 fastgpt/aiproxy_pg
 fastgpt/mongo

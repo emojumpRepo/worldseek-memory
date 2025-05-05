@@ -11,7 +11,7 @@ export async function register() {
         { connectMongo },
         { connectionMongo, connectionLogMongo, MONGO_URL, MONGO_LOG_URL },
         { systemStartCb },
-        { initGlobalVariables, getInitConfig, initSystemPluginGroups, initAppTemplateTypes },
+        { initGlobalVariables, getInitConfig },
         { initVectorStore },
         { initRootUser },
         // { getSystemPluginCb },
@@ -42,9 +42,9 @@ export async function register() {
       //init system config；init vector database；init root user
       await Promise.all([getInitConfig(), initVectorStore(), initRootUser()]);
 
-      initSystemPluginGroups();
-      initAppTemplateTypes();
-    //   getSystemPluginCb();
+      //   initSystemPluginGroups();
+      //   initAppTemplateTypes();
+      //   getSystemPluginCb();
       startMongoWatch();
       startCron();
       startTrainingQueue(true);

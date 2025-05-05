@@ -2,17 +2,17 @@
 import { initSystemConfig } from '.';
 import { createDatasetTrainingMongoWatch } from '@/service/core/dataset/training/utils';
 import { MongoSystemConfigs } from '@fastgpt/service/common/system/config/schema';
-import { MongoSystemPlugin } from '@fastgpt/service/core/app/plugin/systemPluginSchema';
+// import { MongoSystemPlugin } from '@fastgpt/service/core/app/plugin/systemPluginSchema';
 import { debounce } from 'lodash';
-import { MongoAppTemplate } from '@fastgpt/service/core/app/templates/templateSchema';
+// import { MongoAppTemplate } from '@fastgpt/service/core/app/templates/templateSchema';
 import { getAppTemplatesAndLoadThem } from '@fastgpt/templates/register';
 import { watchSystemModelUpdate } from '@fastgpt/service/core/ai/config/utils';
 
 export const startMongoWatch = async () => {
   reloadConfigWatch();
-//   refetchSystemPlugins();
+  // refetchSystemPlugins();
   createDatasetTrainingMongoWatch();
-  refetchAppTemplates();
+  // refetchAppTemplates();
   watchSystemModelUpdate();
 };
 
@@ -44,17 +44,17 @@ const reloadConfigWatch = () => {
 //   );
 // };
 
-const refetchAppTemplates = () => {
-  const changeStream = MongoAppTemplate.watch();
+// const refetchAppTemplates = () => {
+//   const changeStream = MongoAppTemplate.watch();
 
-  changeStream.on(
-    'change',
-    debounce(async (change) => {
-      setTimeout(() => {
-        try {
-          getAppTemplatesAndLoadThem(true);
-        } catch (error) {}
-      }, 5000);
-    }, 500)
-  );
-};
+//   changeStream.on(
+//     'change',
+//     debounce(async (change) => {
+//       setTimeout(() => {
+//         try {
+//           getAppTemplatesAndLoadThem(true);
+//         } catch (error) {}
+//       }, 5000);
+//     }, 500)
+//   );
+// };
