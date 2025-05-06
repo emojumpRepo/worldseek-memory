@@ -10,33 +10,33 @@ import { AppPermission } from '@fastgpt/global/support/permission/app/controller
 import { PermissionValueType } from '@fastgpt/global/support/permission/type';
 import { AppFolderTypeList } from '@fastgpt/global/core/app/constants';
 import { ParentIdType } from '@fastgpt/global/common/parentFolder/type';
-import { splitCombinePluginId } from '../../../core/app/plugin/controller';
-import { PluginSourceEnum } from '@fastgpt/global/core/plugin/constants';
+// import { splitCombinePluginId } from '../../../core/app/plugin/controller';
+// import { PluginSourceEnum } from '@fastgpt/global/core/plugin/constants';
 import { AuthModeType, AuthResponseType } from '../type';
 import { AppDefaultPermissionVal } from '@fastgpt/global/support/permission/app/constant';
 
-export const authPluginByTmbId = async ({
-  tmbId,
-  appId,
-  per
-}: {
-  tmbId: string;
-  appId: string;
-  per: PermissionValueType;
-}) => {
-  const { source } = await splitCombinePluginId(appId);
-  if (source === PluginSourceEnum.personal) {
-    const { app } = await authAppByTmbId({
-      appId,
-      tmbId,
-      per
-    });
+// export const authPluginByTmbId = async ({
+//   tmbId,
+//   appId,
+//   per
+// }: {
+//   tmbId: string;
+//   appId: string;
+//   per: PermissionValueType;
+// }) => {
+//   const { source } = await splitCombinePluginId(appId);
+//   if (source === PluginSourceEnum.personal) {
+//     const { app } = await authAppByTmbId({
+//       appId,
+//       tmbId,
+//       per
+//     });
 
-    return app;
-  }
+//     return app;
+//   }
 
-  // commercial custom plugin already checked in "getSystemPluginTemplateById"
-};
+//   // commercial custom plugin already checked in "getSystemPluginTemplateById"
+// };
 
 export const authAppByTmbId = async ({
   tmbId,
