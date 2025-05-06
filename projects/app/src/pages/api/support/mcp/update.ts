@@ -2,7 +2,7 @@ import type { ApiRequestProps, ApiResponseType } from '@fastgpt/service/type/nex
 import { NextAPI } from '@/service/middleware/entry';
 import { authMcp } from '../../../../../../../packages/service/support/permission/mcp/auth';
 import { ReadPermissionVal, WritePermissionVal } from '@fastgpt/global/support/permission/constant';
-import { authAppByTmbId } from '@fastgpt/service/support/permission/app/auth';
+// import { authAppByTmbId } from '@fastgpt/service/support/permission/app/auth';
 import { MongoMcpKey } from '@fastgpt/service/support/mcp/schema';
 import { McpAppType } from '@fastgpt/global/support/mcp/type';
 
@@ -39,16 +39,16 @@ async function handler(
     return true;
   });
 
-  // Check app read permission
-  await Promise.all(
-    apps.map((app) =>
-      authAppByTmbId({
-        tmbId,
-        appId: app.appId,
-        per: ReadPermissionVal
-      })
-    )
-  );
+  //   // Check app read permission
+  //   await Promise.all(
+  //     apps.map((app) =>
+  //       authAppByTmbId({
+  //         tmbId,
+  //         appId: app.appId,
+  //         per: ReadPermissionVal
+  //       })
+  //     )
+  //   );
 
   await MongoMcpKey.updateOne(
     { _id: mcpId },
