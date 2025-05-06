@@ -14,7 +14,6 @@ export enum TabEnum {
   'info' = 'info',
   'promotion' = 'promotion',
   'usage' = 'usage',
-  'bill' = 'bill',
   'inform' = 'inform',
   'setting' = 'setting',
   'individuation' = 'individuation',
@@ -59,15 +58,6 @@ const AccountContainer = ({
             icon: 'support/usage/usageRecordLight',
             label: t('account:usage_records'),
             value: TabEnum.usage
-          }
-        ]
-      : []),
-    ...(feConfigs?.show_pay && userInfo?.team?.permission.hasManagePer
-      ? [
-          {
-            icon: 'support/bill/payRecordLight',
-            label: t('account:bills_and_invoices'),
-            value: TabEnum.bill
           }
         ]
       : []),

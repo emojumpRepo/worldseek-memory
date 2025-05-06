@@ -1,12 +1,9 @@
 import type { SearchTestProps, SearchTestResponse } from '@/global/core/dataset/api.d';
 import { authDataset } from '@fastgpt/service/support/permission/dataset/auth';
-import { pushGenerateVectorUsage } from '@/service/support/wallet/usage/push';
 import {
   deepRagSearch,
   defaultSearchDatasetData
 } from '@fastgpt/service/core/dataset/search/controller';
-import { updateApiKeyUsage } from '@fastgpt/service/support/openapi/tools';
-import { UsageSourceEnum } from '@fastgpt/global/support/wallet/usage/constants';
 import {
   checkTeamAIPoints,
   checkTeamReRankPermission
@@ -86,32 +83,6 @@ async function handler(req: ApiRequestProps<SearchTestProps>): Promise<SearchTes
         datasetSearchExtensionModel,
         datasetSearchExtensionBg
       });
-
-  // push bill
-  const { totalPoints } = pushGenerateVectorUsage({
-    teamId,
-    tmbId,
-    inputTokens: tokens,
-    model: dataset.vectorModel,
-    source: apikey ? UsageSourceEnum.api : UsageSourceEnum.fastgpt,
-
-    ...(queryExtensionResult && {
-      extensionModel: queryExtensionResult.model,
-      extensionInputTokens: queryExtensionResult.inputTokens,
-      extensionOutputTokens: queryExtensionResult.outputTokens
-    }),
-    ...(deepSearchResult && {
-      deepSearchModel: deepSearchResult.model,
-      deepSearchInputTokens: deepSearchResult.inputTokens,
-      deepSearchOutputTokens: deepSearchResult.outputTokens
-    })
-  });
-  if (apikey) {
-    updateApiKeyUsage({
-      apikey,
-      totalPoints: totalPoints
-    });
-  }
 
   return {
     list: searchRes,

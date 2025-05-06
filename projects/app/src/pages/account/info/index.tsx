@@ -34,7 +34,6 @@ import { useRequest2 } from '@fastgpt/web/hooks/useRequest';
 import { useMount } from 'ahooks';
 import MyDivider from '@fastgpt/web/components/common/MyDivider';
 
-const ConversionModal = dynamic(() => import('@/pageComponents/account/info/ConversionModal'));
 const UpdatePswModal = dynamic(() => import('@/pageComponents/account/info/UpdatePswModal'));
 const UpdateContact = dynamic(() => import('@/components/support/user/inform/UpdateContactModal'));
 const CommunityModal = dynamic(() => import('@/components/CommunityModal'));
@@ -93,11 +92,6 @@ const MyInfo = ({ onOpenContact }: { onOpenContact: () => void }) => {
   const { isPc } = useSystem();
   const { toast } = useToast();
 
-  const {
-    isOpen: isOpenConversionModal,
-    onClose: onCloseConversionModal,
-    onOpen: onOpenConversionModal
-  } = useDisclosure();
   const {
     isOpen: isOpenUpdatePsw,
     onClose: onCloseUpdatePsw,
@@ -280,9 +274,6 @@ const MyInfo = ({ onOpenContact }: { onOpenContact: () => void }) => {
 
         <MyDivider my={6} />
       </Box>
-      {isOpenConversionModal && (
-        <ConversionModal onClose={onCloseConversionModal} onOpenContact={onOpenContact} />
-      )}
       {isOpenUpdatePsw && <UpdatePswModal onClose={onCloseUpdatePsw} />}
       {isOpenUpdateContact && <UpdateContact onClose={onCloseUpdateContact} mode="contact" />}
       <File
