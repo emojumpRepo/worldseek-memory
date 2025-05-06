@@ -4,7 +4,6 @@ import {
   SearchDatasetDataResponse
 } from '../../core/dataset/search/controller';
 import { AuthOpenApiLimitProps } from '../../support/openapi/auth';
-import { CreateUsageProps, ConcatUsageProps } from '@fastgpt/global/support/wallet/usage/api';
 import {
   GetProApiDatasetFileContentParams,
   GetProApiDatasetFileListParams,
@@ -15,8 +14,6 @@ declare global {
   var textCensorHandler: (params: { text: string }) => Promise<{ code: number; message?: string }>;
   var deepRagHandler: (data: DeepRagSearchProps) => Promise<SearchDatasetDataResponse>;
   var authOpenApiHandler: (data: AuthOpenApiLimitProps) => Promise<any>;
-  var createUsageHandler: (data: CreateUsageProps) => any;
-  var concatUsageHandler: (data: ConcatUsageProps) => any;
 
   // API dataset
   var getProApiDatasetFileList: (data: GetProApiDatasetFileListParams) => Promise<APIFileItem[]>;

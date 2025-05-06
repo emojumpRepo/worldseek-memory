@@ -18,7 +18,6 @@ import WorkorderButton from './WorkorderButton';
 
 const Navbar = dynamic(() => import('./navbar'));
 const NavbarPhone = dynamic(() => import('./navbarPhone'));
-const NotSufficientModal = dynamic(() => import('@/components/support/wallet/NotSufficientModal'));
 const SystemMsgModal = dynamic(() => import('@/components/support/user/inform/SystemMsgModal'));
 const ImportantInform = dynamic(() => import('@/components/support/user/inform/ImportantInform'));
 const UpdateContact = dynamic(() => import('@/components/support/user/inform/UpdateContactModal'));
@@ -56,8 +55,7 @@ const Layout = ({ children }: { children: JSX.Element }) => {
   const { toast } = useToast();
   const { t } = useTranslation();
   const { Loading } = useLoading();
-  const { loading, feConfigs, notSufficientModalType, llmModelList, embeddingModelList } =
-    useSystemStore();
+  const { loading, feConfigs, llmModelList, embeddingModelList } = useSystemStore();
   const { isPc } = useSystem();
   const { userInfo, isUpdateNotification, setIsUpdateNotification } = useUserStore();
   const { setUserDefaultLng } = useI18nLng();
@@ -153,7 +151,6 @@ const Layout = ({ children }: { children: JSX.Element }) => {
       </Box>
       {feConfigs?.isPlus && (
         <>
-          {notSufficientModalType && <NotSufficientModal type={notSufficientModalType} />}
           {!!userInfo && <SystemMsgModal />}
           {showUpdateNotification && (
             <UpdateContact onClose={() => setIsUpdateNotification(false)} mode="contact" />

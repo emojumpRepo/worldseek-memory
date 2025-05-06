@@ -55,15 +55,15 @@ const Info = () => {
           <Flex justifyContent={'center'} maxW={'1080px'}>
             <Box flex={'0 0 330px'}>
               <MyInfo onOpenContact={onOpenContact} />
-              <Box mt={6}>
+              {/* <Box mt={6}>
                 <Other onOpenContact={onOpenContact} />
-              </Box>
+              </Box> */}
             </Box>
           </Flex>
         ) : (
           <>
             <MyInfo onOpenContact={onOpenContact} />
-            <Other onOpenContact={onOpenContact} />
+            {/* <Other onOpenContact={onOpenContact} /> */}
           </>
         )}
       </Box>

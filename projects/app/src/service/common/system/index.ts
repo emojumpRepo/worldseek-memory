@@ -17,7 +17,6 @@ import {
   SearchDatasetDataResponse
 } from '@fastgpt/service/core/dataset/search/controller';
 import { AuthOpenApiLimitProps } from '@fastgpt/service/support/openapi/auth';
-import { ConcatUsageProps, CreateUsageProps } from '@fastgpt/global/support/wallet/usage/api';
 import {
   getProApiDatasetFileContentRequest,
   getProApiDatasetFileListRequest,
@@ -62,16 +61,6 @@ export function initGlobalVariables() {
     global.authOpenApiHandler = function authOpenApiHandler(data: AuthOpenApiLimitProps) {
       if (!isProVersion()) return Promise.resolve();
       return POST<AuthOpenApiLimitProps>('/support/openapi/authLimit', data);
-    };
-
-    global.createUsageHandler = function createUsageHandler(data: CreateUsageProps) {
-      if (!isProVersion()) return;
-      return POST('/support/wallet/usage/createUsage', data);
-    };
-
-    global.concatUsageHandler = function concatUsageHandler(data: ConcatUsageProps) {
-      if (!isProVersion()) return;
-      return POST('/support/wallet/usage/concatUsage', data);
     };
 
     global.getProApiDatasetFileList = getProApiDatasetFileListRequest;

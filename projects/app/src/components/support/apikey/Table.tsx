@@ -150,7 +150,6 @@ const ApiKeyTable = ({ tips, appId }: { tips: string; appId?: string }) => {
             <Tr>
               <Th>{t('common:Name')}</Th>
               <Th>Api Key</Th>
-              <Th>{t('common:support.outlink.Usage points')}</Th>
               {feConfigs?.isPlus && (
                 <>
                   <Th>{t('common:common.Expired Time')}</Th>
@@ -167,12 +166,6 @@ const ApiKeyTable = ({ tips, appId }: { tips: string; appId?: string }) => {
               <Tr key={_id}>
                 <Td>{name}</Td>
                 <Td>{apiKey}</Td>
-                <Td>
-                  {Math.round(usagePoints)}/
-                  {feConfigs?.isPlus && limit?.maxUsagePoints && limit?.maxUsagePoints > -1
-                    ? `${limit?.maxUsagePoints}`
-                    : t('common:common.Unlimited')}
-                </Td>
                 {feConfigs?.isPlus && (
                   <>
                     <Td whiteSpace={'pre-wrap'}>

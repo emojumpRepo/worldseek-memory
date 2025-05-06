@@ -45,11 +45,7 @@ function Error() {
     }
 
     setTimeout(() => {
-      if (modelError) {
-        router.push('/dataset/list');
-      } else {
-        router.push('/dataset/list');
-      }
+      router.push('/dataset/list');
     }, 2000);
   }, []);
 
