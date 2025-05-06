@@ -3,7 +3,7 @@ import { NextAPI } from '@/service/middleware/entry';
 import { MongoMcpKey } from '@fastgpt/service/support/mcp/schema';
 import { CommonErrEnum } from '@fastgpt/global/common/error/code/common';
 import { MongoApp } from '@fastgpt/service/core/app/schema';
-import { authAppByTmbId } from '@fastgpt/service/support/permission/app/auth';
+// import { authAppByTmbId } from '@fastgpt/service/support/permission/app/auth';
 import { ReadPermissionVal } from '@fastgpt/global/support/permission/constant';
 import { getAppLatestVersion } from '@fastgpt/service/core/app/version/controller';
 import { Tool } from '@modelcontextprotocol/sdk/types';
@@ -115,7 +115,7 @@ async function handler(
   const permissionAppList = await Promise.all(
     appList.filter(async (app) => {
       try {
-        await authAppByTmbId({ tmbId: mcp.tmbId, appId: app._id, per: ReadPermissionVal });
+        // await authAppByTmbId({ tmbId: mcp.tmbId, appId: app._id, per: ReadPermissionVal });
         return true;
       } catch (error) {
         return false;
