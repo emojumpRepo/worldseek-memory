@@ -2,7 +2,6 @@ import { UsageSourceEnum } from '@fastgpt/global/support/wallet/usage/constants'
 import { MongoUsage } from './schema';
 import { ClientSession } from '../../../common/mongo';
 import { addLog } from '../../../common/system/log';
-import { ChatNodeUsageType } from '@fastgpt/global/support/wallet/bill/type';
 import { ConcatUsageProps, CreateUsageProps } from '@fastgpt/global/support/wallet/usage/api';
 import { i18nT } from '../../../../web/i18n/utils';
 

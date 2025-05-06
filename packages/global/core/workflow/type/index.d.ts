@@ -13,7 +13,6 @@ import {
   ChatItemValueItemType,
   ToolRunResponseItemType
 } from '../../chat/type';
-import { ChatNodeUsageType } from '../../../support/wallet/bill/type';
 import { PluginTypeEnum } from '../../plugin/constants';
 import { StoreEdgeItemType } from './edge';
 import { AppChatConfigType } from '../../app/type';

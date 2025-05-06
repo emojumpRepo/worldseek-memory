@@ -4,8 +4,6 @@ import { Box, Flex, HStack, VStack } from '@chakra-ui/react';
 import { useUserStore } from '@/web/support/user/useUserStore';
 import { getTeamPlanStatus } from '@/web/support/user/team/api';
 
-import StandardPlan from '@/pageComponents/price/Standard';
-import ExtraPlan from '@/pageComponents/price/ExtraPlan';
 import PointsCard from '@/pageComponents/price/Points';
 import FAQ from '@/pageComponents/price/FAQ';
 import { useTranslation } from 'next-i18next';
@@ -53,7 +51,6 @@ const PriceBox = () => {
             title: feConfigs?.systemTitle
           })}
         </Box>
-        <StandardPlan standardPlan={teamSubPlan?.standard} onPaySuccess={onPaySuccess} />
         <HStack mt={8} color={'blue.700'} ml={8}>
           <MyIcon name={'infoRounded'} w={'1rem'} />
           <Box fontSize={'sm'} fontWeight={'500'}>
@@ -70,7 +67,6 @@ const PriceBox = () => {
         <Box mt={2} mb={8} color={'myGray.600'} fontSize={'md'}>
           {t('common:support.wallet.subscription.Extra plan tip')}
         </Box>
-        <ExtraPlan onPaySuccess={onPaySuccess} />
       </VStack>
 
       {/* points */}

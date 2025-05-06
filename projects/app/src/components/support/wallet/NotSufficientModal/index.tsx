@@ -3,8 +3,6 @@ import MyModal from '@fastgpt/web/components/common/MyModal';
 import { useTranslation } from 'next-i18next';
 import { Box, Button, Flex, ModalBody, ModalFooter, useDisclosure } from '@chakra-ui/react';
 import { NotSufficientModalType, useSystemStore } from '@/web/common/system/useSystemStore';
-import ExtraPlan from '@/pageComponents/price/ExtraPlan';
-import StandardPlan from '@/pageComponents/price/Standard';
 import FillRowTabs from '@fastgpt/web/components/common/Tabs/FillRowTabs';
 import FormLabel from '@fastgpt/web/components/common/MyBox/FormLabel';
 import { useUserStore } from '@/web/support/user/useUserStore';
@@ -135,21 +133,6 @@ const RechargeModal = ({
             setTab(e as 'standard' | 'extra');
           }}
         />
-
-        <Box
-          mt={3}
-          p={8}
-          bg={'myGray.50'}
-          border={'1px solid'}
-          borderColor={'myGray.200'}
-          rounded={'12px'}
-        >
-          {tab === 'standard' ? (
-            <StandardPlan standardPlan={teamPlanStatus?.standard} onPaySuccess={onPaySuccess} />
-          ) : (
-            <ExtraPlan onPaySuccess={onPaySuccess} />
-          )}
-        </Box>
       </ModalBody>
     </MyModal>
   );

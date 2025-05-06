@@ -15,7 +15,6 @@ import {
   ToolRunResponseItemType,
   UserChatItemValueItemType
 } from '../../chat/type';
-import { ChatNodeUsageType } from '../../../support/wallet/bill/type';
 import { RuntimeNodeItemType } from '../runtime/type';
 import { PluginTypeEnum } from '../../plugin/constants';
 import { RuntimeEdgeItemType, StoreEdgeItemType } from './edge';
