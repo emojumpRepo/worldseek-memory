@@ -141,7 +141,10 @@ const Login = ({ ChineseRedirectUrl }: { ChineseRedirectUrl: string }) => {
       <Flex
         alignItems={'center'}
         justifyContent={'center'}
-        bg={`url(${getWebReqUrl('/icon/login-bg.svg')}) no-repeat`}
+        // bg={`url(${getWebReqUrl('/icon/login-bg.svg')}) no-repeat`}
+        background="radial-gradient(66.06% 66.06% at 0 0, rgba(52, 120, 255, 0.13) 0, rgba(52, 120, 255, 0) 100%),
+            radial-gradient(46.32% 67.56% at 52.35% -1%, rgba(52, 180, 255, 0.16) 0, rgba(52, 180, 255, 0) 100%),
+            radial-gradient(59.31% 62.11% at 92.4% 0, rgba(122, 200, 255, 0.12) 0, rgba(122, 200, 255, 0) 100%)"
         backgroundSize={'cover'}
         userSelect={'none'}
         h={'100%'}
