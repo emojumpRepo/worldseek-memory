@@ -25,7 +25,7 @@ const { definePartsStyle: tablePart, defineMultiStyleConfig: tableMultiStyle } =
 const { definePartsStyle: radioParts, defineMultiStyleConfig: radioStyle } =
   createMultiStyleConfigHelpers(radioAnatomy.keys);
 
-export const shadowLight = '0px 0px 0px 2.4px rgba(51, 112, 255, 0.15)';
+export const shadowLight = '0px 0px 0px 2.4px rgba(72, 82, 100, 0.15)';
 
 // 按键
 const Button = defineStyleConfig({
@@ -684,7 +684,8 @@ export const theme = extendTheme({
       800: '#1D2532',
       900: '#111824'
     },
-    primary: {
+    // 原始的主题色
+    myPrimary: {
       1: 'rgba(51, 112, 255, 0.1)',
       '015': 'rgba(51, 112, 255, 0.15)',
       3: 'rgba(51, 112, 255, 0.3)',
@@ -703,24 +704,51 @@ export const theme = extendTheme({
       800: '#2450B5',
       900: '#1D4091'
     },
-    blue: {
-      1: 'rgba(51, 112, 255, 0.1)',
-      '015': 'rgba(51, 112, 255, 0.15)',
-      3: 'rgba(51, 112, 255, 0.3)',
-      5: 'rgba(51, 112, 255, 0.5)',
-      7: 'rgba(51, 112, 255, 0.7)',
-      9: 'rgba(51, 112, 255, 0.9)',
+    primary: {
+      '015': 'rgba(17, 24, 36, 0.05)',
+      1: 'rgba(17, 24, 36, 0.1)',
+      15: 'rgba(17, 24, 36, 0.15)',
+      3: 'rgba(17, 24, 36, 0.3)',
+      5: 'rgba(17, 24, 36, 0.5)',
+      7: 'rgba(17, 24, 36, 0.7)',
+      9: 'rgba(17, 24, 36, 0.9)',
 
-      50: '#F0F4FF',
-      100: '#E1EAFF',
-      200: '#C5D7FF',
-      300: '#94B5FF',
-      400: '#5E8FFF',
-      500: '#487FFF',
-      600: '#3370FF',
-      700: '#2B5FD9',
-      800: '#2450B5',
-      900: '#1D4091'
+      25: '#FBFBFC',
+      50: '#F7F8FA',
+      100: '#F4F4F7',
+      150: '#F0F1F6',
+      200: '#E8EBF0',
+      250: '#DFE2EA',
+      300: '#C4CBD7',
+      400: '#8A95A7',
+      500: '#667085',
+      600: '#485264',
+      700: '#383F50',
+      800: '#1D2532',
+      900: '#111824'
+    },
+    blue: {
+      '015': 'rgba(17, 24, 36, 0.05)',
+      1: 'rgba(17, 24, 36, 0.1)',
+      15: 'rgba(17, 24, 36, 0.15)',
+      3: 'rgba(17, 24, 36, 0.3)',
+      5: 'rgba(17, 24, 36, 0.5)',
+      7: 'rgba(17, 24, 36, 0.7)',
+      9: 'rgba(17, 24, 36, 0.9)',
+
+      25: '#FBFBFC',
+      50: '#F7F8FA',
+      100: '#F4F4F7',
+      150: '#F0F1F6',
+      200: '#E8EBF0',
+      250: '#DFE2EA',
+      300: '#C4CBD7',
+      400: '#8A95A7',
+      500: '#667085',
+      600: '#485264',
+      700: '#383F50',
+      800: '#1D2532',
+      900: '#111824'
     },
     red: {
       1: 'rgba(217,45,32,0.1)',
@@ -802,10 +830,10 @@ export const theme = extendTheme({
     '6xl': '3.6rem'
   },
   borders: {
-    sm: '1px solid #E8EBF0',
-    base: '1px solid #DFE2EA',
-    md: '1px solid #DAE0E2',
-    lg: '1px solid #D0E0E2'
+    sm: '1px solid #F4F4F7',
+    base: '1px solid #E8EBF0',
+    md: '1px solid #C4CBD7',
+    lg: '1px solid #8A95A7'
   },
   radii: {
     none: '0',
@@ -837,10 +865,10 @@ export const theme = extendTheme({
     '2xl': '2100px'
   },
   lgColor: {
-    activeBlueGradient: 'linear-gradient(to bottom right, #d6e8ff 0%, #f0f7ff 100%)',
-    hoverBlueGradient: 'linear-gradient(to top left, #d6e8ff 0%, #f0f7ff 100%)',
-    primary: 'linear-gradient(to bottom right, #2152d9 0%,#3370ff 40%, #4e83fd 100%)',
-    primary2: 'linear-gradient(to bottom right, #2152d9 0%,#3370ff 30%,#4e83fd 80%, #85b1ff 100%)'
+    activeBlueGradient: 'linear-gradient(to bottom right, #F7F8FA 0%, #F4F4F7 100%)',
+    hoverBlueGradient: 'linear-gradient(to top left, #F7F8FA 0%, #F4F4F7 100%)',
+    primary: 'linear-gradient(to bottom right, #383F50 0%, #485264 40%, #667085 100%)',
+    primary2: 'linear-gradient(to bottom right, #383F50 0%, #485264 30%, #667085 80%, #8A95A7 100%)'
   },
   components: {
     Button,

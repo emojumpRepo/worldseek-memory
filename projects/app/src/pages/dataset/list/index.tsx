@@ -183,13 +183,6 @@ const Dataset = () => {
               ? folderDetail.permission.hasWritePer
               : userInfo?.team?.permission.hasDatasetCreatePer) && (
               <Box pl={[0, 4]}>
-                {/* <Button variant={'primary'} px={5} onClick={() => setIsModalOpen(true)}>
-                  <Flex alignItems={'center'}>
-                    <AddIcon mr={2} />
-                    <Box>{t('common:new_create')}</Box>
-                  </Flex>
-                </Button> */}
-
                 <MyModal
                   isOpen={isModalOpen}
                   onClose={() => {
@@ -211,14 +204,13 @@ const Dataset = () => {
                             p={6}
                             cursor="pointer"
                             _hover={{ shadow: 'md' }}
-                            bg={selectedType === dataset.type ? 'blue.50' : 'white'}
                             border="2px solid"
-                            borderColor={selectedType === dataset.type ? 'blue.500' : 'white'}
+                            borderColor={selectedType === dataset.type ? 'myGray.500' : 'white'}
                           >
                             <VStack spacing={4} align="center">
                               <MyIcon name={dataset.icon} w="12" h="12" color={dataset.iconColor} />
                               <Text fontWeight="bold">{dataset.title}</Text>
-                              <Text fontSize="sm" color="gray.500" textAlign="center">
+                              <Text fontSize="xs" color="gray.500" textAlign="center">
                                 {dataset.description}
                               </Text>
                             </VStack>
