@@ -3,7 +3,7 @@ import { NextAPI } from '@/service/middleware/entry';
 import { authUserPer } from '@fastgpt/service/support/permission/user/auth';
 import { TeamErrEnum } from '@fastgpt/global/common/error/code/team';
 import { CommonErrEnum } from '@fastgpt/global/common/error/code/common';
-import { authAppByTmbId } from '@fastgpt/service/support/permission/app/auth';
+// import { authAppByTmbId } from '@fastgpt/service/support/permission/app/auth';
 import { ReadPermissionVal } from '@fastgpt/global/support/permission/constant';
 import { MongoMcpKey } from '@fastgpt/service/support/mcp/schema';
 import { McpAppType } from '@fastgpt/global/support/mcp/type';
@@ -53,16 +53,16 @@ async function handler(
     return true;
   });
 
-  // Check app read permission
-  await Promise.all(
-    apps.map((app) =>
-      authAppByTmbId({
-        tmbId,
-        appId: app.appId,
-        per: ReadPermissionVal
-      })
-    )
-  );
+  //   // Check app read permission
+  //   await Promise.all(
+  //     apps.map((app) =>
+  //       authAppByTmbId({
+  //         tmbId,
+  //         appId: app.appId,
+  //         per: ReadPermissionVal
+  //       })
+  //     )
+  //   );
 
   await MongoMcpKey.create({
     teamId,

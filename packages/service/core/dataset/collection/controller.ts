@@ -18,8 +18,6 @@ import { rawText2Chunks } from '../read';
 import { checkDatasetLimit } from '../../../support/permission/teamLimit';
 import { predictDataLimitLength } from '../../../../global/core/dataset/utils';
 import { mongoSessionRun } from '../../../common/mongo/sessionRun';
-import { createTrainingUsage } from '../../../support/wallet/usage/controller';
-import { UsageSourceEnum } from '@fastgpt/global/support/wallet/usage/constants';
 import { getLLMModel, getEmbeddingModel, getVlmModel } from '../../ai/model';
 import { pushDataListToTrainingQueue } from '../training/controller';
 import { MongoImage } from '../../../common/file/image/schema';
@@ -122,17 +120,7 @@ export const createCollectionAndInsertData = async ({
     // 4. create training bill
     const traingBillId = await (async () => {
       if (billId) return billId;
-      const { billId: newBillId } = await createTrainingUsage({
-        teamId,
-        tmbId,
-        appName: createCollectionParams.name,
-        billSource: UsageSourceEnum.training,
-        vectorModel: getEmbeddingModel(dataset.vectorModel)?.name,
-        agentModel: getLLMModel(dataset.agentModel)?.name,
-        vllmModel: getVlmModel(dataset.vlmModel)?.name,
-        session
-      });
-      return newBillId;
+      return '';
     })();
 
     // 5. insert to training queue

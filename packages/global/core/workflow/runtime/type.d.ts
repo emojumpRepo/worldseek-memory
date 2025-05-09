@@ -1,4 +1,3 @@
-import { ChatNodeUsageType } from '../../../support/wallet/bill/type';
 import {
   ChatItemType,
   UserChatItemValueItemType,
@@ -228,7 +227,7 @@ export type DispatchNodeResponseType = {
 export type DispatchNodeResultType<T = {}> = {
   [DispatchNodeResponseKeyEnum.skipHandleId]?: string[]; // skip some edge handle id
   [DispatchNodeResponseKeyEnum.nodeResponse]?: DispatchNodeResponseType; // The node response detail
-  [DispatchNodeResponseKeyEnum.nodeDispatchUsages]?: ChatNodeUsageType[]; // Node total usage
+  [DispatchNodeResponseKeyEnum.nodeDispatchUsages]?: any; // Node total usage
   [DispatchNodeResponseKeyEnum.childrenResponses]?: DispatchNodeResultType[]; // Children node response
   [DispatchNodeResponseKeyEnum.toolResponses]?: ToolRunResponseItemType; // Tool response
   [DispatchNodeResponseKeyEnum.assistantResponses]?: AIChatItemValueItemType[]; // Assistant response(Store to db)

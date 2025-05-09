@@ -15,7 +15,6 @@ import { useSystemStore } from '@/web/common/system/useSystemStore';
 import type { ResLogin } from '@/global/support/api/userRes.d';
 import { useRouter } from 'next/router';
 import { useUserStore } from '@/web/support/user/useUserStore';
-import { useChatStore } from '@/web/core/chat/context/useChatStore';
 import dynamic from 'next/dynamic';
 import { serviceSideProps } from '@/web/common/i18n/utils';
 import { clearToken } from '@/web/support/user/auth';
@@ -45,7 +44,6 @@ const Login = ({ ChineseRedirectUrl }: { ChineseRedirectUrl: string }) => {
   const { feConfigs } = useSystemStore();
   const [pageType, setPageType] = useState<`${LoginPageTypeEnum}`>(LoginPageTypeEnum.passwordLogin);
   const { setUserInfo } = useUserStore();
-  const { setLastChatAppId } = useChatStore();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { isPc } = useSystem();
   const { toast } = useToast();
@@ -66,9 +64,7 @@ const Login = ({ ChineseRedirectUrl }: { ChineseRedirectUrl: string }) => {
       const decodeLastRoute = decodeURIComponent(lastRoute);
       // 检查是否是当前的 route
       const navigateTo =
-        decodeLastRoute && !decodeLastRoute.includes('/login')
-          ? decodeLastRoute
-          : '/dashboard/apps';
+        decodeLastRoute && !decodeLastRoute.includes('/login') ? decodeLastRoute : '/dataset/list';
       router.push(navigateTo);
     },
     [setUserInfo, lastRoute, router]
@@ -98,10 +94,7 @@ const Login = ({ ChineseRedirectUrl }: { ChineseRedirectUrl: string }) => {
     setPageType(
       feConfigs?.oauth?.wechat ? LoginPageTypeEnum.wechat : LoginPageTypeEnum.passwordLogin
     );
-
-    // init store
-    setLastChatAppId('');
-  }, [feConfigs?.oauth, setLastChatAppId]);
+  }, [feConfigs?.oauth?.wechat]);
 
   const {
     isOpen: isOpenRedirect,
@@ -131,7 +124,7 @@ const Login = ({ ChineseRedirectUrl }: { ChineseRedirectUrl: string }) => {
 
   useMount(() => {
     clearToken();
-    router.prefetch('/dashboard/apps');
+    router.prefetch('/dataset/list');
 
     ChineseRedirectUrl && showRedirect && checkIpInChina();
     localCookieVersion !== cookieVersion && onOpenCookiesDrawer();
@@ -148,7 +141,10 @@ const Login = ({ ChineseRedirectUrl }: { ChineseRedirectUrl: string }) => {
       <Flex
         alignItems={'center'}
         justifyContent={'center'}
-        bg={`url(${getWebReqUrl('/icon/login-bg.svg')}) no-repeat`}
+        // bg={`url(${getWebReqUrl('/icon/login-bg.svg')}) no-repeat`}
+        background="radial-gradient(66.06% 66.06% at 0 0, rgba(52, 120, 255, 0.13) 0, rgba(52, 120, 255, 0) 100%),
+            radial-gradient(46.32% 67.56% at 52.35% -1%, rgba(52, 180, 255, 0.16) 0, rgba(52, 180, 255, 0) 100%),
+            radial-gradient(59.31% 62.11% at 92.4% 0, rgba(122, 200, 255, 0.12) 0, rgba(122, 200, 255, 0) 100%)"
         backgroundSize={'cover'}
         userSelect={'none'}
         h={'100%'}

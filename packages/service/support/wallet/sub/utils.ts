@@ -57,32 +57,6 @@ export const initTeamFreePlan = async ({
   teamId: string;
   session?: ClientSession;
 }) => {
-  const freePoints = global?.subPlans?.standard?.[StandardSubLevelEnum.free]?.totalPoints || 100;
-
-  const freePlan = await MongoTeamSub.findOne({
-    teamId,
-    type: SubTypeEnum.standard,
-    currentSubLevel: StandardSubLevelEnum.free
-  });
-
-  // Reset one month free plan
-  if (freePlan) {
-    freePlan.currentMode = SubModeEnum.month;
-    freePlan.nextMode = SubModeEnum.month;
-    freePlan.startTime = new Date();
-    freePlan.expiredTime = addMonths(new Date(), 1);
-
-    freePlan.currentSubLevel = StandardSubLevelEnum.free;
-    freePlan.nextSubLevel = StandardSubLevelEnum.free;
-
-    freePlan.totalPoints = freePoints;
-    freePlan.surplusPoints =
-      freePlan.surplusPoints && freePlan.surplusPoints < 0
-        ? freePlan.surplusPoints + freePoints
-        : freePoints;
-    return freePlan.save({ session });
-  }
-
   return MongoTeamSub.create(
     [
       {
@@ -91,13 +65,11 @@ export const initTeamFreePlan = async ({
         currentMode: SubModeEnum.month,
         nextMode: SubModeEnum.month,
         startTime: new Date(),
-        expiredTime: addMonths(new Date(), 1),
-
-        currentSubLevel: StandardSubLevelEnum.free,
-        nextSubLevel: StandardSubLevelEnum.free,
-
-        totalPoints: freePoints,
-        surplusPoints: freePoints
+        expiredTime: new Date('2099-12-31'),
+        currentSubLevel: StandardSubLevelEnum.enterprise,
+        nextSubLevel: StandardSubLevelEnum.enterprise,
+        totalPoints: 999999999,
+        surplusPoints: 999999999
       }
     ],
     { session, ordered: true }

@@ -11,10 +11,10 @@ export async function register() {
         { connectMongo },
         { connectionMongo, connectionLogMongo, MONGO_URL, MONGO_LOG_URL },
         { systemStartCb },
-        { initGlobalVariables, getInitConfig, initSystemPluginGroups, initAppTemplateTypes },
+        { initGlobalVariables, getInitConfig },
         { initVectorStore },
         { initRootUser },
-        { getSystemPluginCb },
+        // { getSystemPluginCb },
         { startMongoWatch },
         { startCron },
         { startTrainingQueue }
@@ -25,7 +25,7 @@ export async function register() {
         import('@/service/common/system'),
         import('@fastgpt/service/common/vectorStore/controller'),
         import('@/service/mongo'),
-        import('@/service/core/app/plugin'),
+        // import('@/service/core/app/plugin'),
         import('@/service/common/system/volumnMongoWatch'),
         import('@/service/common/system/cron'),
         import('@/service/core/dataset/training/utils')
@@ -42,9 +42,9 @@ export async function register() {
       //init system config；init vector database；init root user
       await Promise.all([getInitConfig(), initVectorStore(), initRootUser()]);
 
-      initSystemPluginGroups();
-      initAppTemplateTypes();
-      getSystemPluginCb();
+      //   initSystemPluginGroups();
+      //   initAppTemplateTypes();
+      //   getSystemPluginCb();
       startMongoWatch();
       startCron();
       startTrainingQueue(true);

@@ -4,7 +4,7 @@ import { parseHeaderCert } from '../controller';
 import { MongoOutLink } from '../../outLink/schema';
 import { OutLinkErrEnum } from '@fastgpt/global/common/error/code/outLink';
 import { OwnerPermissionVal } from '@fastgpt/global/support/permission/constant';
-import { authAppByTmbId } from '../app/auth';
+// import { authAppByTmbId } from '../app/auth';
 import { AuthModeType, AuthResponseType } from '../type';
 
 /* crud outlink permission */
@@ -33,15 +33,15 @@ export async function authOutLinkCrud({
       return Promise.reject(OutLinkErrEnum.unAuthLink);
     }
 
-    const { app } = await authAppByTmbId({
-      tmbId,
-      appId: outLink.appId,
-      per
-    });
+    // const { app } = await authAppByTmbId({
+    //   tmbId,
+    //   appId: outLink.appId,
+    //   per
+    // });
 
     return {
-      outLink,
-      app
+      outLink
+      //   app
     };
   })();
 

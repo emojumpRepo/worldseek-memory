@@ -9,7 +9,6 @@ import { ReadFileBaseUrl } from '@fastgpt/global/common/file/constants';
 import { addLog } from '@fastgpt/service/common/system/log';
 import { authFrequencyLimit } from '@/service/common/frequencyLimit/api';
 import { addSeconds } from 'date-fns';
-import { authChatCrud } from '@/service/support/permission/auth/chat';
 import { authDataset } from '@fastgpt/service/support/permission/dataset/auth';
 import { OutLinkChatAuthProps } from '@fastgpt/global/support/permission/chat';
 import { WritePermissionVal } from '@fastgpt/global/support/permission/constant';
@@ -44,19 +43,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse<any>) {
     filePaths.push(file.path);
 
     const { teamId, uid } = await (async () => {
-      if (bucketName === 'chat') {
-        const chatData = data as UploadChatFileProps;
-        const authData = await authChatCrud({
-          req,
-          authToken: true,
-          authApiKey: true,
-          ...chatData
-        });
-        return {
-          teamId: authData.teamId,
-          uid: authData.uid
-        };
-      }
       if (bucketName === 'dataset') {
         const chatData = data as UploadDatasetFileProps;
         const authData = await authDataset({

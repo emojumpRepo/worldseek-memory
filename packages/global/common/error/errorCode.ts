@@ -1,5 +1,4 @@
 import appErr from './code/app';
-import chatErr from './code/chat';
 import datasetErr from './code/dataset';
 import openapiErr from './code/openapi';
 import pluginErr from './code/plugin';
@@ -100,7 +99,6 @@ export const ERROR_RESPONSE: Record<
     data: null
   },
   ...appErr,
-  ...chatErr,
   ...datasetErr,
   ...openapiErr,
   ...outLinkErr,

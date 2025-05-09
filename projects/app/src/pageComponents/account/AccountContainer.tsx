@@ -14,10 +14,8 @@ export enum TabEnum {
   'info' = 'info',
   'promotion' = 'promotion',
   'usage' = 'usage',
-  'bill' = 'bill',
   'inform' = 'inform',
   'setting' = 'setting',
-  'thirdParty' = 'thirdParty',
   'individuation' = 'individuation',
   'apikey' = 'apikey',
   'loginout' = 'loginout',
@@ -63,20 +61,6 @@ const AccountContainer = ({
           }
         ]
       : []),
-    ...(feConfigs?.show_pay && userInfo?.team?.permission.hasManagePer
-      ? [
-          {
-            icon: 'support/bill/payRecordLight',
-            label: t('account:bills_and_invoices'),
-            value: TabEnum.bill
-          }
-        ]
-      : []),
-    {
-      icon: 'common/thirdParty',
-      label: t('account:third_party'),
-      value: TabEnum.thirdParty
-    },
     {
       icon: 'common/model',
       label: t('account:model_provider'),

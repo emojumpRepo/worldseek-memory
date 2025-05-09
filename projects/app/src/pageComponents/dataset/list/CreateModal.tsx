@@ -25,9 +25,7 @@ import { getWebDefaultEmbeddingModel, getWebDefaultLLMModel } from '@/web/common
 export type CreateDatasetType =
   | DatasetTypeEnum.dataset
   | DatasetTypeEnum.apiDataset
-  | DatasetTypeEnum.websiteDataset
-  | DatasetTypeEnum.feishu
-  | DatasetTypeEnum.yuque;
+  | DatasetTypeEnum.websiteDataset;
 
 const CreateModal = ({
   onClose,
@@ -57,14 +55,6 @@ const CreateModal = ({
       [DatasetTypeEnum.websiteDataset]: {
         name: t('dataset:website_dataset'),
         icon: 'core/dataset/websiteDatasetColor'
-      },
-      [DatasetTypeEnum.feishu]: {
-        name: t('dataset:feishu_dataset'),
-        icon: 'core/dataset/feishuDatasetColor'
-      },
-      [DatasetTypeEnum.yuque]: {
-        name: t('dataset:yuque_dataset'),
-        icon: 'core/dataset/yuqueDatasetColor'
       }
     };
   }, [t]);

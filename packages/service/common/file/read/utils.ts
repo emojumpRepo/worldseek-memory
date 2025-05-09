@@ -7,7 +7,6 @@ import axios from 'axios';
 import { addLog } from '../../system/log';
 import { batchRun } from '@fastgpt/global/common/system/utils';
 import { matchMdImg } from '@fastgpt/global/common/string/markdown';
-import { createPdfParseUsage } from '../../../support/wallet/usage/controller';
 import { useDoc2xServer } from '../../../thirdProvider/doc2x';
 
 export type readRawTextByLocalFileParams = {
@@ -99,12 +98,6 @@ export const readRawContentByFileBuffer = async ({
     const rawText = response.markdown;
     const { text, imageList } = matchMdImg(rawText);
 
-    createPdfParseUsage({
-      teamId,
-      tmbId,
-      pages: response.pages
-    });
-
     return {
       rawText: text,
       formatText: rawText,
@@ -117,12 +110,6 @@ export const readRawContentByFileBuffer = async ({
     if (!doc2xKey) return systemParse();
 
     const { pages, text, imageList } = await useDoc2xServer({ apiKey: doc2xKey }).parsePDF(buffer);
-
-    createPdfParseUsage({
-      teamId,
-      tmbId,
-      pages
-    });
 
     return {
       rawText: text,

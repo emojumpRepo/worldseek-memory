@@ -8,8 +8,8 @@ import { isProduction } from '@fastgpt/global/common/system/constants';
 import { initFastGPTConfig } from '@fastgpt/service/common/system/tools';
 import json5 from 'json5';
 import { defaultGroup, defaultTemplateTypes } from '@fastgpt/web/core/workflow/constants';
-import { MongoPluginGroups } from '@fastgpt/service/core/app/plugin/pluginGroupSchema';
-import { MongoTemplateTypes } from '@fastgpt/service/core/app/templates/templateTypeSchema';
+// import { MongoPluginGroups } from '@fastgpt/service/core/app/plugin/pluginGroupSchema';
+// import { MongoTemplateTypes } from '@fastgpt/service/core/app/templates/templateTypeSchema';
 import { loadSystemModels } from '@fastgpt/service/core/ai/config/utils';
 import { POST } from '@fastgpt/service/common/api/plusRequest';
 import {
@@ -17,7 +17,6 @@ import {
   SearchDatasetDataResponse
 } from '@fastgpt/service/core/dataset/search/controller';
 import { AuthOpenApiLimitProps } from '@fastgpt/service/support/openapi/auth';
-import { ConcatUsageProps, CreateUsageProps } from '@fastgpt/global/support/wallet/usage/api';
 import {
   getProApiDatasetFileContentRequest,
   getProApiDatasetFileListRequest,
@@ -64,16 +63,6 @@ export function initGlobalVariables() {
       return POST<AuthOpenApiLimitProps>('/support/openapi/authLimit', data);
     };
 
-    global.createUsageHandler = function createUsageHandler(data: CreateUsageProps) {
-      if (!isProVersion()) return;
-      return POST('/support/wallet/usage/createUsage', data);
-    };
-
-    global.concatUsageHandler = function concatUsageHandler(data: ConcatUsageProps) {
-      if (!isProVersion()) return;
-      return POST('/support/wallet/usage/concatUsage', data);
-    };
-
     global.getProApiDatasetFileList = getProApiDatasetFileListRequest;
     global.getProApiDatasetFileContent = getProApiDatasetFileContentRequest;
     global.getProApiDatasetFilePreviewUrl = getProApiDatasetFilePreviewUrlRequest;
@@ -99,7 +88,7 @@ const defaultFeConfigs: FastGPTFeConfigsType = {
   systemPluginCourseUrl: 'https://fael3z0zfze.feishu.cn/wiki/ERZnw9R26iRRG0kXZRec6WL9nwh',
   appTemplateCourse:
     'https://fael3z0zfze.feishu.cn/wiki/CX9wwMGyEi5TL6koiLYcg7U0nWb?fromScene=spaceOverview',
-  systemTitle: 'FastGPT',
+  systemTitle: 'WorldSeek KB',
   concatMd:
     '项目开源地址: [FastGPT GitHub](https://github.com/labring/FastGPT)\n交流群: ![](https://oss.laf.run/otnvvf-imgs/fastgpt-feishu1.png)',
   limit: {
@@ -163,45 +152,45 @@ async function getSystemVersion() {
   }
 }
 
-export async function initSystemPluginGroups() {
-  try {
-    const { groupOrder, ...restDefaultGroup } = defaultGroup;
-    await MongoPluginGroups.updateOne(
-      {
-        groupId: defaultGroup.groupId
-      },
-      {
-        $set: restDefaultGroup
-      },
-      {
-        upsert: true
-      }
-    );
-  } catch (error) {
-    console.error('Error initializing system plugins:', error);
-  }
-}
+// export async function initSystemPluginGroups() {
+//   try {
+//     const { groupOrder, ...restDefaultGroup } = defaultGroup;
+//     await MongoPluginGroups.updateOne(
+//       {
+//         groupId: defaultGroup.groupId
+//       },
+//       {
+//         $set: restDefaultGroup
+//       },
+//       {
+//         upsert: true
+//       }
+//     );
+//   } catch (error) {
+//     console.error('Error initializing system plugins:', error);
+//   }
+// }
 
-export async function initAppTemplateTypes() {
-  try {
-    await Promise.all(
-      defaultTemplateTypes.map((templateType) => {
-        const { typeOrder, ...rest } = templateType;
+// export async function initAppTemplateTypes() {
+//   try {
+//     await Promise.all(
+//       defaultTemplateTypes.map((templateType) => {
+//         const { typeOrder, ...rest } = templateType;
 
-        return MongoTemplateTypes.updateOne(
-          {
-            typeId: templateType.typeId
-          },
-          {
-            $set: rest
-          },
-          {
-            upsert: true
-          }
-        );
-      })
-    );
-  } catch (error) {
-    console.error('Error initializing system templates:', error);
-  }
-}
+//         return MongoTemplateTypes.updateOne(
+//           {
+//             typeId: templateType.typeId
+//           },
+//           {
+//             $set: rest
+//           },
+//           {
+//             upsert: true
+//           }
+//         );
+//       })
+//     );
+//   } catch (error) {
+//     console.error('Error initializing system templates:', error);
+//   }
+// }

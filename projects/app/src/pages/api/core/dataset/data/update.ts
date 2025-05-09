@@ -1,5 +1,4 @@
 import { updateData2Dataset } from '@/service/core/dataset/data/controller';
-import { pushGenerateVectorUsage } from '@/service/support/wallet/usage/push';
 import { UpdateDatasetDataProps } from '@fastgpt/global/core/dataset/controller';
 import { NextAPI } from '@/service/middleware/entry';
 import { WritePermissionVal } from '@fastgpt/global/support/permission/constant';
@@ -30,13 +29,6 @@ async function handler(req: ApiRequestProps<UpdateDatasetDataProps>) {
       q,
       a,
       indexes,
-      model: vectorModel
-    });
-
-    pushGenerateVectorUsage({
-      teamId,
-      tmbId,
-      inputTokens: tokens,
       model: vectorModel
     });
   } else {

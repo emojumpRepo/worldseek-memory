@@ -1,7 +1,6 @@
 import { insertData2Dataset } from '@/service/core/dataset/data/controller';
 import { MongoDatasetTraining } from '@fastgpt/service/core/dataset/training/schema';
 import { TrainingModeEnum } from '@fastgpt/global/core/dataset/constants';
-import { pushGenerateVectorUsage } from '@/service/support/wallet/usage/push';
 import { checkTeamAiPointsAndLock } from './utils';
 import { addMinutes } from 'date-fns';
 import { addLog } from '@fastgpt/service/common/system/log';
@@ -103,19 +102,6 @@ export async function generateVector(): Promise<any> {
         return insertData({ trainingData: data });
       }
     })();
-
-    // push usage
-    pushGenerateVectorUsage({
-      teamId: data.teamId,
-      tmbId: data.tmbId,
-      inputTokens: tokens,
-      model: data.model,
-      billId: data.billId
-    });
-
-    addLog.info(`[Vector Queue] Finish`, {
-      time: Date.now() - start
-    });
 
     return reduceQueueAndReturn();
   } catch (err: any) {

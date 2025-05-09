@@ -2,7 +2,6 @@ import React, { useMemo } from 'react';
 import { Box, BoxProps, Flex, Link, LinkProps } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import { useUserStore } from '@/web/support/user/useUserStore';
-import { useChatStore } from '@/web/core/chat/context/useChatStore';
 import { HUMAN_ICON } from '@fastgpt/global/common/system/constants';
 import NextLink from 'next/link';
 import Badge from '../Badge';
@@ -40,30 +39,9 @@ const Navbar = ({ unread }: { unread: number }) => {
   const router = useRouter();
   const { userInfo } = useUserStore();
   const { gitStar, feConfigs } = useSystemStore();
-  const { lastChatAppId } = useChatStore();
 
   const navbarList = useMemo(
     () => [
-      {
-        label: t('common:navbar.Chat'),
-        icon: 'core/chat/chatLight',
-        activeIcon: 'core/chat/chatFill',
-        link: `/chat?appId=${lastChatAppId}`,
-        activeLink: ['/chat']
-      },
-      {
-        label: t('common:navbar.Studio'),
-        icon: 'core/app/aiLight',
-        activeIcon: 'core/app/aiFill',
-        link: `/dashboard/apps`,
-        activeLink: [
-          '/dashboard/apps',
-          '/app/detail',
-          '/dashboard/templateMarket',
-          '/dashboard/[pluginGroupId]',
-          '/dashboard/mcpServer'
-        ]
-      },
       {
         label: t('common:navbar.Datasets'),
         icon: 'core/dataset/datasetLight',
@@ -81,7 +59,6 @@ const Navbar = ({ unread }: { unread: number }) => {
           '/account/info',
           '/account/team',
           '/account/usage',
-          '/account/thirdParty',
           '/account/apikey',
           '/account/setting',
           '/account/inform',
@@ -90,7 +67,7 @@ const Navbar = ({ unread }: { unread: number }) => {
         ]
       }
     ],
-    [lastChatAppId, t]
+    [t]
   );
 
   const isSecondNavbarPage = useMemo(() => {
@@ -211,23 +188,6 @@ const Navbar = ({ unread }: { unread: number }) => {
             </Link>
           </MyTooltip>
         ))}
-
-      {feConfigs?.show_git && (
-        <MyTooltip label={`Git Star: ${gitStar}`} placement={'right-end'}>
-          <Link
-            as={NextLink}
-            href="https://github.com/labring/FastGPT"
-            target={'_blank'}
-            {...itemStyles}
-            {...hoverStyle}
-            mt={0}
-            color={'myGray.400'}
-            height={'48px'}
-          >
-            <MyIcon name={'common/gitInlight'} width={'26px'} height={'26px'} />
-          </Link>
-        </MyTooltip>
-      )}
     </Flex>
   );
 };

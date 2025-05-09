@@ -18,17 +18,6 @@ vi.mock(import('@fastgpt/service/common/string/tiktoken'), async (importOriginal
   };
 });
 
-vi.mock(import('@fastgpt/service/support/wallet/usage/utils'), async (importOriginal) => {
-  const mod = await importOriginal();
-  return {
-    ...mod,
-    formatModelChars2Points: () => ({
-      modelName: 'test',
-      totalPoints: 1
-    })
-  };
-});
-
 const testWorkflow = async (path: string) => {
   const fileContent = readFileSync(resolve(process.cwd(), path), 'utf-8');
   const workflow = JSON.parse(fileContent);

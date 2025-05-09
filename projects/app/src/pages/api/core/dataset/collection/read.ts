@@ -7,7 +7,6 @@ import { BucketNameEnum, ReadFileBaseUrl } from '@fastgpt/global/common/file/con
 import { ReadPermissionVal } from '@fastgpt/global/support/permission/constant';
 import { OutLinkChatAuthProps } from '@fastgpt/global/support/permission/chat';
 import { DatasetErrEnum } from '@fastgpt/global/common/error/code/dataset';
-import { authChatCrud, authCollectionInChat } from '@/service/support/permission/auth/chat';
 import { getCollectionWithDataset } from '@fastgpt/service/core/dataset/controller';
 import { useApiDatasetRequest } from '@fastgpt/service/core/dataset/apiDataset/api';
 
@@ -15,10 +14,6 @@ export type readCollectionSourceQuery = {};
 
 export type readCollectionSourceBody = {
   collectionId: string;
-
-  appId?: string;
-  chatId?: string;
-  chatItemDataId?: string;
 } & OutLinkChatAuthProps;
 
 export type readCollectionSourceResponse = {
@@ -29,54 +24,20 @@ export type readCollectionSourceResponse = {
 async function handler(
   req: ApiRequestProps<readCollectionSourceBody, readCollectionSourceQuery>
 ): Promise<readCollectionSourceResponse> {
-  const { collectionId, appId, chatId, chatItemDataId, shareId, outLinkUid, teamId, teamToken } =
-    req.body;
+  const { collectionId } = req.body;
 
   const {
     collection,
     teamId: userTeamId,
     tmbId: uid,
     authType
-  } = await (async () => {
-    if (!appId || !chatId || !chatItemDataId) {
-      return authDatasetCollection({
-        req,
-        authToken: true,
-        authApiKey: true,
-        collectionId: req.body.collectionId,
-        per: ReadPermissionVal
-      });
-    }
-
-    /* 
-      1. auth chat read permission
-      2. auth collection quote in chat
-      3. auth outlink open show quote
-    */
-    const [authRes, collection] = await Promise.all([
-      authChatCrud({
-        req,
-        authToken: true,
-        appId,
-        chatId,
-        shareId,
-        outLinkUid,
-        teamId,
-        teamToken
-      }),
-      getCollectionWithDataset(collectionId),
-      authCollectionInChat({ appId, chatId, chatItemDataId, collectionIds: [collectionId] })
-    ]);
-
-    if (!authRes.showRawSource) {
-      return Promise.reject(DatasetErrEnum.unAuthDatasetFile);
-    }
-
-    return {
-      ...authRes,
-      collection
-    };
-  })();
+  } = await authDatasetCollection({
+    req,
+    authToken: true,
+    authApiKey: true,
+    collectionId: req.body.collectionId,
+    per: ReadPermissionVal
+  });
 
   const sourceUrl = await (async () => {
     if (collection.type === DatasetCollectionTypeEnum.file && collection.fileId) {
