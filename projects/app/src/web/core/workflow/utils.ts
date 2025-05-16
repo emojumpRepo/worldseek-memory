@@ -35,7 +35,6 @@ import { VariableConditionEnum } from '@fastgpt/global/core/workflow/template/sy
 import { AppChatConfigType } from '@fastgpt/global/core/app/type';
 import { cloneDeep, isEqual } from 'lodash';
 import { getInputComponentProps } from '@fastgpt/global/core/workflow/node/io/utils';
-import { workflowSystemVariables } from '../app/utils';
 
 export const nodeTemplate2FlowNode = ({
   template,
@@ -509,7 +508,7 @@ export const getWorkflowGlobalVariables = ({
     })?.variables || []
   );
 
-  return [...globalVariables, ...workflowSystemVariables];
+  return [...globalVariables];
 };
 
 export type CombinedItemType = Partial<FlowNodeInputItemType> & Partial<FlowNodeOutputItemType>;

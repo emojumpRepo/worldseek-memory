@@ -5,7 +5,6 @@ import {
 import { Schema, getMongoModel } from '../../common/mongo';
 import { McpKeyType } from '@fastgpt/global/support/mcp/type';
 import { getNanoid } from '@fastgpt/global/common/string/tools';
-import { AppCollectionName } from '../../core/app/schema';
 
 export const mcpCollectionName = 'mcp_keys';
 
@@ -35,7 +34,7 @@ const McpKeySchema = new Schema({
       {
         appId: {
           type: Schema.Types.ObjectId,
-          ref: AppCollectionName,
+          ref: 'app',
           required: true
         },
         toolName: {

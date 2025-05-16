@@ -21,9 +21,6 @@ const RawSourceBox = ({
   canView = true,
 
   collectionId,
-  appId,
-  chatId,
-  chatItemDataId,
   shareId,
   outLinkUid,
   teamId,
@@ -38,9 +35,6 @@ const RawSourceBox = ({
   const icon = useMemo(() => getSourceNameIcon({ sourceId, sourceName }), [sourceId, sourceName]);
   const read = getCollectionSourceAndOpen({
     collectionId,
-    appId,
-    chatId,
-    chatItemDataId,
     shareId,
     outLinkUid,
     teamId,

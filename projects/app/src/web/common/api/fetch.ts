@@ -1,6 +1,5 @@
 import { SseResponseEventEnum } from '@fastgpt/global/core/workflow/runtime/constants';
 import { getErrText } from '@fastgpt/global/common/error/utils';
-import type { StartChatFnProps } from '@/components/core/chat/ChatContainer/type';
 import {
   // refer to https://github.com/ChatGPTNextWeb/ChatGPT-Next-Web
   EventStreamContentType,
@@ -14,7 +13,7 @@ import { getWebReqUrl } from '@fastgpt/web/common/system/utils';
 type StreamFetchProps = {
   url?: string;
   data: Record<string, any>;
-  onMessage: StartChatFnProps['generatingMessage'];
+  onMessage: any;
   abortCtrl: AbortController;
 };
 export type StreamResponseType = {

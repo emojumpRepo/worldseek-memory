@@ -2,8 +2,11 @@ import fs from 'fs';
 import path from 'path';
 import { isProduction } from '@fastgpt/global/common/system/constants';
 import { PluginSourceEnum } from '@fastgpt/global/core/plugin/constants';
-import { MongoAppTemplate } from '@fastgpt/service/core/app/templates/templateSchema';
 import { AppTemplateSchemaType } from '@fastgpt/global/core/app/type';
+import { connectionMongo, getMongoModel } from '@fastgpt/service/common/mongo';
+
+const { Schema } = connectionMongo;
+const MongoAppTemplate = getMongoModel<AppTemplateSchemaType>('app_templates', new Schema({}));
 
 const getTemplateNameList = () => {
   const currentFileUrl = new URL(import.meta.url);
@@ -40,7 +43,9 @@ const getAppTemplates = async () => {
 
   // Merge db data to community templates
   const communityTemplateConfig = communityTemplates.map((template) => {
-    const config = dbTemplates.find((t) => t.templateId === template.templateId);
+    const config = dbTemplates.find(
+      (t: AppTemplateSchemaType) => t.templateId === template.templateId
+    );
 
     if (config) {
       return {
@@ -58,7 +63,7 @@ const getAppTemplates = async () => {
 
   const res = [
     ...communityTemplateConfig,
-    ...dbTemplates.filter((t) => !isCommunityTemplate(t.templateId))
+    ...dbTemplates.filter((t: AppTemplateSchemaType) => !isCommunityTemplate(t.templateId))
   ].sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
 
   return res;
