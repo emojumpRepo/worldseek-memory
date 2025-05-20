@@ -95,13 +95,13 @@ const Layout = ({ children }: { children: JSX.Element }) => {
             status: 'warning',
             title: t('common:llm_model_not_config')
           });
-          router.pathname !== '/dataset/list' && router.push('/dataset/list');
+          router.pathname !== '/account/info' && router.push('/account/info');
         } else if (embeddingModelList.length === 0) {
           toast({
             status: 'warning',
             title: t('common:embedding_model_not_config')
           });
-          router.pathname !== '/dataset/list' && router.push('/dataset/list');
+          router.pathname !== '/account/info' && router.push('/account/info');
         }
       }
     },
