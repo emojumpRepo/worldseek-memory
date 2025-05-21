@@ -69,20 +69,6 @@ const Detail = ({ datasetId, currentTab }: Props) => {
 
       {isPc ? (
         <Flex h={'100%'} py={3} pl={1} pr={3} gap={2}>
-          <Flex flex={1} w={0} bg={'white'} flexDir={'column'} boxShadow={'2'} borderRadius={'md'}>
-            {currentTab !== TabEnum.import && <NavBar currentTab={currentTab} />}
-            <Box flex={'1'} overflowY={'auto'}>
-              {currentTab === TabEnum.collectionCard && (
-                <CollectionPageContextProvider>
-                  <CollectionCard />
-                </CollectionPageContextProvider>
-              )}
-              {currentTab === TabEnum.test && <Test datasetId={datasetId} />}
-              {currentTab === TabEnum.dataCard && <DataCard />}
-              {currentTab === TabEnum.import && <Import />}
-            </Box>
-          </Flex>
-
           {/* Slider */}
           <>
             {currentTab === TabEnum.dataCard && (
@@ -96,6 +82,21 @@ const Detail = ({ datasetId, currentTab }: Props) => {
               </Flex>
             )}
           </>
+
+          {/* 主内容区 */}
+          <Flex flex={1} w={0} bg={'white'} flexDir={'column'} boxShadow={'2'} borderRadius={'md'}>
+            {currentTab !== TabEnum.import && <NavBar currentTab={currentTab} />}
+            <Box flex={'1'} overflowY={'auto'}>
+              {currentTab === TabEnum.collectionCard && (
+                <CollectionPageContextProvider>
+                  <CollectionCard />
+                </CollectionPageContextProvider>
+              )}
+              {currentTab === TabEnum.test && <Test datasetId={datasetId} />}
+              {currentTab === TabEnum.dataCard && <DataCard />}
+              {currentTab === TabEnum.import && <Import />}
+            </Box>
+          </Flex>
         </Flex>
       ) : (
         <PageContainer insertProps={{ bg: 'white' }}>

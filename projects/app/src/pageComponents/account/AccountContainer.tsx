@@ -43,7 +43,7 @@ const AccountContainer = ({
 
   const tabList = useRef([
     {
-      icon: 'support/user/userLight',
+      icon: 'support/user/userFill',
       label: t('account:personal_information'),
       value: TabEnum.info
     },

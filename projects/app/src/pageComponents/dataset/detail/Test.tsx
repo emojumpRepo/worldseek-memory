@@ -140,8 +140,13 @@ const Test = ({ datasetId }: { datasetId: string }) => {
   }, [datasetId]);
 
   return (
-    <Box h={'100%'} display={['block', 'flex']}>
-      {/* left  */}
+    <Box h={'100%'} display={['block', 'flex']} gap={1.5} bg="myGray.100">
+      {/* result show */}
+      <Box p={4} h={['auto', '100%']} overflow={'overlay'} flex={'1 0 0'} bg={'white'}>
+        <TestResults datasetTestItem={datasetTestItem} />
+      </Box>
+
+      {/* right  */}
       <Box
         h={['auto', '100%']}
         display={['block', 'flex']}
@@ -149,6 +154,7 @@ const Test = ({ datasetId }: { datasetId: string }) => {
         flex={1}
         maxW={'500px'}
         py={4}
+        bg={'white'}
       >
         <Box
           border={'2px solid'}
@@ -157,8 +163,7 @@ const Test = ({ datasetId }: { datasetId: string }) => {
           borderRadius={'md'}
           {...(isFocus
             ? {
-                borderColor: 'primary.500',
-                boxShadow: '0px 0px 0px 2.4px rgba(51, 112, 255, 0.15)'
+                borderColor: 'primary.500'
               }
             : {
                 borderColor: 'primary.300'
@@ -168,7 +173,7 @@ const Test = ({ datasetId }: { datasetId: string }) => {
           <Flex alignItems={'center'} justifyContent={'space-between'}>
             <MySelect<'text' | 'file'>
               size={'sm'}
-              w={'150px'}
+              w={'160px'}
               list={[
                 {
                   label: (
@@ -273,6 +278,7 @@ const Test = ({ datasetId }: { datasetId: string }) => {
           <Flex justifyContent={'flex-end'}>
             <Button
               size={'sm'}
+              bg="primary.900"
               isLoading={textTestIsLoading}
               isDisabled={inputType === 'file' && !selectFile}
               onClick={() => {
@@ -294,10 +300,6 @@ const Test = ({ datasetId }: { datasetId: string }) => {
             setDatasetTestItem={setDatasetTestItem}
           />
         </Box>
-      </Box>
-      {/* result show */}
-      <Box p={4} h={['auto', '100%']} overflow={'overlay'} flex={'1 0 0'} bg={'white'}>
-        <TestResults datasetTestItem={datasetTestItem} />
       </Box>
 
       {/* {isOpenSelectMode && (

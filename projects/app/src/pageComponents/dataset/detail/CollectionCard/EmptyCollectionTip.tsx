@@ -16,7 +16,7 @@ const EmptyCollectionTip = () => {
     <>
       {(datasetDetail.type === DatasetTypeEnum.dataset ||
         datasetDetail.type === DatasetTypeEnum.externalFile) && (
-        <EmptyTip text={t('common:core.dataset.collection.Empty Tip')} />
+        <EmptyTip iconSize={'40px'} text={t('common:core.dataset.collection.Empty Tip')} />
       )}
       {datasetDetail.type === DatasetTypeEnum.websiteDataset && (
         <EmptyTip

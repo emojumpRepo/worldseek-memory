@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Box, Flex, MenuButton, Button, Link, useDisclosure, HStack } from '@chakra-ui/react';
 import {
   getDatasetCollectionPathById,
@@ -34,6 +34,9 @@ import MyBox from '@fastgpt/web/components/common/MyBox';
 import Icon from '@fastgpt/web/components/common/Icon';
 import MyTag from '@fastgpt/web/components/common/Tag/index';
 import QuestionTip from '@fastgpt/web/components/common/MyTooltip/QuestionTip';
+import { Progress } from '@chakra-ui/react';
+import MyPopover from '@fastgpt/web/components/common/MyPopover';
+import { getTrainingQueueLen } from '@/web/core/dataset/api';
 
 const FileSourceSelector = dynamic(() => import('../Import/components/FileSourceSelector'));
 
@@ -56,6 +59,8 @@ const Header = ({ hasTrainingData }: { hasTrainingData: boolean }) => {
     onOpenWebsiteModal,
     openWebSyncConfirm
   } = useContextSelector(CollectionPageContext, (v) => v);
+
+  const { rebuildingCount } = useContextSelector(DatasetPageContext, (v) => v);
 
   const { data: paths = [] } = useRequest2(() => getDatasetCollectionPathById(parentId), {
     refreshDeps: [parentId],
@@ -98,10 +103,69 @@ const Header = ({ hasTrainingData }: { hasTrainingData: boolean }) => {
 
   const isWebSite = datasetDetail?.type === DatasetTypeEnum.websiteDataset;
 
+  // global queue
+  const {
+    data: {
+      vectorTrainingCount = 0,
+      qaTrainingCount = 0,
+      autoTrainingCount = 0,
+      imageTrainingCount = 0
+    } = {}
+  } = useRequest2(getTrainingQueueLen, {
+    manual: false,
+    retryInterval: 10000
+  });
+
+  const { vectorTrainingMap, qaTrainingMap, autoTrainingMap, imageTrainingMap } = useMemo(() => {
+    const vectorTrainingMap = (() => {
+      if (vectorTrainingCount < 1000)
+        return {
+          colorSchema: 'green',
+          tip: t('common:core.dataset.training.Leisure')
+        };
+      if (vectorTrainingCount < 20000)
+        return {
+          colorSchema: 'yellow',
+          tip: t('common:core.dataset.training.Waiting')
+        };
+      return {
+        colorSchema: 'red',
+        tip: t('common:core.dataset.training.Full')
+      };
+    })();
+
+    const countLLMMap = (count: number) => {
+      if (count < 100)
+        return {
+          colorSchema: 'green',
+          tip: t('common:core.dataset.training.Leisure')
+        };
+      if (count < 1000)
+        return {
+          colorSchema: 'yellow',
+          tip: t('common:core.dataset.training.Waiting')
+        };
+      return {
+        colorSchema: 'red',
+        tip: t('common:core.dataset.training.Full')
+      };
+    };
+    const qaTrainingMap = countLLMMap(qaTrainingCount);
+    const autoTrainingMap = countLLMMap(autoTrainingCount);
+    const imageTrainingMap = countLLMMap(imageTrainingCount);
+
+    return {
+      vectorTrainingMap,
+      qaTrainingMap,
+      autoTrainingMap,
+      imageTrainingMap
+    };
+  }, [qaTrainingCount, autoTrainingCount, imageTrainingCount, vectorTrainingCount, t]);
+
   return (
     <MyBox display={['block', 'flex']} alignItems={'center'} gap={2}>
-      <HStack flex={1}>
-        <Box flex={1} fontWeight={'500'} color={'myGray.900'} whiteSpace={'nowrap'}>
+      <HStack flex={1} gap={2} alignItems="center" wrap="nowrap">
+        <Box fontWeight={'500'} color={'myGray.900'} whiteSpace={'nowrap'}>
           <ParentPath
             paths={paths.map((path, i) => ({
               parentId: path.parentId,
@@ -148,129 +212,229 @@ const Header = ({ hasTrainingData }: { hasTrainingData: boolean }) => {
           />
         </Box>
 
-        {/* search input */}
-        {isPc && (
-          <MyInput
-            maxW={'250px'}
-            flex={1}
-            size={'sm'}
-            h={'36px'}
-            placeholder={t('common:common.Search') || ''}
-            value={searchText}
-            leftIcon={
-              <MyIcon
-                name="common/searchLight"
-                position={'absolute'}
-                w={'16px'}
-                color={'myGray.500'}
-              />
-            }
-            onChange={(e) => {
-              setSearchText(e.target.value);
-            }}
-          />
-        )}
-
         {/* Tag */}
         {datasetDetail.type !== DatasetTypeEnum.websiteDataset &&
           datasetDetail.permission.hasWritePer &&
           feConfigs?.isPlus && <HeaderTagPopOver />}
+
+        {/* search input - 移动到这里，放在同一行 */}
+        {isPc && (
+          <Box ml={3}>
+            <MyInput
+              ml={0}
+              w={'200px'}
+              size={'sm'}
+              h={'30px'}
+              placeholder={t('common:common.Search') || ''}
+              value={searchText}
+              leftIcon={
+                <MyIcon
+                  name="common/searchLight"
+                  position={'absolute'}
+                  w={'16px'}
+                  color={'myGray.500'}
+                />
+              }
+              onChange={(e) => {
+                setSearchText(e.target.value);
+              }}
+            />
+          </Box>
+        )}
       </HStack>
 
       {/* diff collection button */}
       {datasetDetail.permission.hasWritePer && (
         <Box mt={[3, 0]}>
-          {datasetDetail?.type === DatasetTypeEnum.dataset && (
-            <MyMenu
-              offset={[0, 5]}
-              Button={
-                <MenuButton
+          <HStack spacing={2}>
+            {/* 训练情况hover弹窗 - 从NavBar.tsx移动过来 */}
+            <MyPopover
+              placement="bottom-end"
+              trigger="hover"
+              Trigger={
+                <Flex
+                  alignItems={'center'}
+                  justifyContent={'center'}
+                  py={2}
+                  px={4}
+                  borderRadius={'md'}
+                  bg={'myGray.100'}
                   _hover={{
-                    color: 'primary.500'
+                    bg: 'myGray.200'
                   }}
-                  fontSize={['sm', 'md']}
+                  cursor={'pointer'}
                 >
-                  <Flex
-                    px={3.5}
-                    py={2}
-                    borderRadius={'sm'}
-                    cursor={'pointer'}
-                    bg={'primary.500'}
-                    overflow={'hidden'}
-                    color={'white'}
+                  <MyIcon name={'common/monitor'} w={'16px'} h={'16px'} color={'myGray.500'} />
+                  <Box
+                    color="myGray.900"
+                    ml={1.5}
+                    fontSize={'sm'}
+                    fontWeight={500}
+                    userSelect={'none'}
                   >
-                    <Flex h={'20px'} alignItems={'center'}>
-                      <MyIcon
-                        name={'common/folderImport'}
-                        mr={2}
-                        w={'18px'}
-                        h={'18px'}
-                        color={'white'}
-                      />
-                    </Flex>
-                    <Box h={'20px'} fontSize={'sm'} fontWeight={'500'}>
-                      {t('common:dataset.collections.Create And Import')}
-                    </Box>
-                  </Flex>
-                </MenuButton>
+                    {t('common:core.dataset.training.tag')}
+                  </Box>
+                </Flex>
               }
-              menuList={[
-                {
-                  children: [
-                    {
-                      label: (
-                        <Flex>
-                          <MyIcon name={'common/folderFill'} w={'20px'} mr={2} />
-                          {t('common:Folder')}
-                        </Flex>
-                      ),
-                      onClick: () => setEditFolderData({})
-                    },
-                    {
-                      label: (
-                        <Flex>
-                          <MyIcon name={'core/dataset/manualCollection'} mr={2} w={'20px'} />
-                          {t('common:core.dataset.Manual collection')}
-                        </Flex>
-                      ),
-                      onClick: () => {
-                        onOpenCreateVirtualFileModal({
-                          defaultVal: '',
-                          onSuccess: (name) =>
-                            onCreateCollection({ name, type: DatasetCollectionTypeEnum.virtual })
-                        });
-                      }
-                    },
-                    {
-                      label: (
-                        <Flex>
-                          <MyIcon name={'core/dataset/fileCollection'} mr={2} w={'20px'} />
-                          {t('common:core.dataset.Text collection')}
-                        </Flex>
-                      ),
-                      onClick: onOpenFileSourceSelector
-                    },
-                    {
-                      label: (
-                        <Flex>
-                          <MyIcon name={'core/dataset/tableCollection'} mr={2} w={'20px'} />
-                          {t('common:core.dataset.Table collection')}
-                        </Flex>
-                      ),
-                      onClick: () =>
-                        router.replace({
-                          query: {
-                            ...router.query,
-                            currentTab: TabEnum.import,
-                            source: ImportDataSourceEnum.csvTable
-                          }
-                        })
-                    }
-                  ]
+            >
+              {({ onClose }) => (
+                <Box p={6}>
+                  {rebuildingCount > 0 && (
+                    <Box mb={3}>
+                      <Box fontSize={'sm'}>
+                        {t('dataset:rebuilding_index_count', { count: rebuildingCount })}
+                      </Box>
+                    </Box>
+                  )}
+                  <Box mb={3}>
+                    <Box fontSize={'sm'} pb={1}>
+                      {t('common:core.dataset.training.Agent queue')}({qaTrainingMap.tip})
+                    </Box>
+                    <Progress
+                      value={100}
+                      size={'xs'}
+                      colorScheme={qaTrainingMap.colorSchema}
+                      borderRadius={'md'}
+                      isAnimated
+                      hasStripe
+                    />
+                  </Box>
+                  <Box mb={3}>
+                    <Box fontSize={'sm'} pb={1}>
+                      {t('dataset:auto_training_queue')}({autoTrainingMap.tip})
+                    </Box>
+                    <Progress
+                      value={100}
+                      size={'xs'}
+                      colorScheme={autoTrainingMap.colorSchema}
+                      borderRadius={'md'}
+                      isAnimated
+                      hasStripe
+                    />
+                  </Box>
+                  <Box mb={3}>
+                    <Box fontSize={'sm'} pb={1}>
+                      {t('dataset:image_training_queue')}({imageTrainingMap.tip})
+                    </Box>
+                    <Progress
+                      value={100}
+                      size={'xs'}
+                      colorScheme={imageTrainingMap.colorSchema}
+                      borderRadius={'md'}
+                      isAnimated
+                      hasStripe
+                    />
+                  </Box>
+                  <Box>
+                    <Box fontSize={'sm'} pb={1}>
+                      {t('common:core.dataset.training.Vector queue')}({vectorTrainingMap.tip})
+                    </Box>
+                    <Progress
+                      value={100}
+                      size={'xs'}
+                      colorScheme={vectorTrainingMap.colorSchema}
+                      borderRadius={'md'}
+                      isAnimated
+                      hasStripe
+                    />
+                  </Box>
+                </Box>
+              )}
+            </MyPopover>
+
+            {datasetDetail?.type === DatasetTypeEnum.dataset && (
+              <MyMenu
+                offset={[0, 5]}
+                Button={
+                  <MenuButton
+                    _hover={{
+                      color: 'primary.900'
+                    }}
+                    fontSize={['sm', 'md']}
+                  >
+                    <Flex
+                      px={3.5}
+                      py={2}
+                      borderRadius={'sm'}
+                      cursor={'pointer'}
+                      bg={'primary.900'}
+                      overflow={'hidden'}
+                      color={'white'}
+                    >
+                      <Flex h={'20px'} alignItems={'center'}>
+                        <MyIcon
+                          name={'common/folderImport'}
+                          mr={2}
+                          w={'18px'}
+                          h={'18px'}
+                          color={'white'}
+                        />
+                      </Flex>
+                      <Box h={'20px'} fontSize={'sm'} fontWeight={'500'}>
+                        {t('common:dataset.collections.Create And Import')}
+                      </Box>
+                    </Flex>
+                  </MenuButton>
                 }
-              ]}
-            />
-          )}
+                menuList={[
+                  {
+                    children: [
+                      {
+                        label: (
+                          <Flex>
+                            <MyIcon name={'common/folderFill'} w={'20px'} mr={2} />
+                            {t('common:Folder')}
+                          </Flex>
+                        ),
+                        onClick: () => setEditFolderData({})
+                      },
+                      {
+                        label: (
+                          <Flex>
+                            <MyIcon name={'core/dataset/manualCollection'} mr={2} w={'20px'} />
+                            {t('common:core.dataset.Manual collection')}
+                          </Flex>
+                        ),
+                        onClick: () => {
+                          onOpenCreateVirtualFileModal({
+                            defaultVal: '',
+                            onSuccess: (name) =>
+                              onCreateCollection({ name, type: DatasetCollectionTypeEnum.virtual })
+                          });
+                        }
+                      },
+                      {
+                        label: (
+                          <Flex>
+                            <MyIcon name={'core/dataset/fileCollection'} mr={2} w={'20px'} />
+                            {t('common:core.dataset.Text collection')}
+                          </Flex>
+                        ),
+                        onClick: onOpenFileSourceSelector
+                      },
+                      {
+                        label: (
+                          <Flex>
+                            <MyIcon name={'core/dataset/tableCollection'} mr={2} w={'20px'} />
+                            {t('common:core.dataset.Table collection')}
+                          </Flex>
+                        ),
+                        onClick: () =>
+                          router.replace({
+                            query: {
+                              ...router.query,
+                              currentTab: TabEnum.import,
+                              source: ImportDataSourceEnum.csvTable
+                            }
+                          })
+                      }
+                    ]
+                  }
+                ]}
+              />
+            )}
+          </HStack>
+
           {datasetDetail?.type === DatasetTypeEnum.websiteDataset && (
             <>
               {datasetDetail?.websiteConfig?.url ? (
@@ -419,7 +583,7 @@ const Header = ({ hasTrainingData }: { hasTrainingData: boolean }) => {
               py={2}
               borderRadius={'sm'}
               cursor={'pointer'}
-              bg={'primary.500'}
+              bg={'primary.900'}
               overflow={'hidden'}
               color={'white'}
               onClick={() =>

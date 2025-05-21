@@ -24,14 +24,6 @@ const SideTag = ({ type, ...props }: { type: `${DatasetTypeEnum}` } & FlexProps)
       [DatasetTypeEnum.apiDataset]: {
         icon: 'core/dataset/externalDatasetOutline',
         label: t('dataset:api_file')
-      },
-      [DatasetTypeEnum.feishu]: {
-        icon: 'core/dataset/feishuDatasetOutline',
-        label: t('dataset:feishu_dataset')
-      },
-      [DatasetTypeEnum.yuque]: {
-        icon: 'core/dataset/yuqueDatasetOutline',
-        label: t('dataset:yuque_dataset')
       }
     };
   }, [t]);
