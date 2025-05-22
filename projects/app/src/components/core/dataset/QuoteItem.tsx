@@ -26,13 +26,13 @@ export const scoreTheme: Record<
 > = {
   '0': {
     color: '#000',
-    bg: '#white',
+    bg: 'white',
     borderColor: '#C4CBD7',
     colorScheme: 'primary'
   },
   '1': {
     color: '#000',
-    bg: '#white',
+    bg: 'white',
     borderColor: '#C4CBD7',
     colorScheme: 'primary'
   },
@@ -65,6 +65,7 @@ export const formatScore = (score: ScoreItemType[]) => {
       reRankScore = item;
     } else if (item.type === SearchScoreTypeEnum.embedding) {
       embeddingScore = item;
+      reRankScore = item;
     } else if (item.type === SearchScoreTypeEnum.fullText) {
       fullTextScore = item;
     }
@@ -129,7 +130,7 @@ const QuoteItem = ({
                 py={'5px'}
                 borderRadius={'md'}
                 color={'primary.700'}
-                bg={'primary.50'}
+                bg="white"
                 borderWidth={'1px'}
                 borderColor={'primary.200'}
                 alignItems={'center'}
@@ -156,8 +157,9 @@ const QuoteItem = ({
                       px={'5px'}
                       borderWidth={'1px'}
                       borderRadius={'sm'}
+                      bg="white"
                       mr={'2px'}
-                      {...(scoreTheme[i] && scoreTheme[i])}
+                      // {...(scoreTheme[i] && scoreTheme[i])}
                     >
                       <Box transform={'scale(0.9)'}>#{item.index + 1}</Box>
                     </Box>
@@ -200,24 +202,26 @@ const QuoteItem = ({
           color={'myGray.500'}
           fontSize={'xs'}
         >
+          <Box>
+            <RawSourceBox
+              fontWeight={'bold'}
+              color={'black'}
+              collectionId={quoteItem.collectionId}
+              sourceName={quoteItem.sourceName}
+              sourceId={quoteItem.sourceId}
+              canView={canViewSource}
+              {...RawSourceBoxProps}
+            />
+            <Box flex={1} />
+          </Box>
+
           <MyTooltip label={t('common:core.dataset.Quote Length')}>
             <Flex alignItems={'center'}>
               <MyIcon name="common/text/t" w={'14px'} mr={1} color={'myGray.500'} />
               {quoteItem.q.length + (quoteItem.a?.length || 0)}
             </Flex>
           </MyTooltip>
-
-          <RawSourceBox
-            fontWeight={'bold'}
-            color={'black'}
-            collectionId={quoteItem.collectionId}
-            sourceName={quoteItem.sourceName}
-            sourceId={quoteItem.sourceId}
-            canView={canViewSource}
-            {...RawSourceBoxProps}
-          />
-          <Box flex={1} />
-          {quoteItem.id && canEditDataset && (
+          {/* {quoteItem.id && canEditDataset && (
             <MyTooltip label={t('common:core.dataset.data.Edit')}>
               <Box
                 className="hover-data"
@@ -244,8 +248,8 @@ const QuoteItem = ({
                 />
               </Box>
             </MyTooltip>
-          )}
-          {canEditDataset && (
+          )} */}
+          {/* {canEditDataset && (
             <Link
               as={NextLink}
               className="hover-data"
@@ -257,7 +261,7 @@ const QuoteItem = ({
               {t('chat:to_dataset')}
               <MyIcon name={'common/rightArrowLight'} w={'10px'} />
             </Link>
-          )}
+          )} */}
         </Flex>
       </MyBox>
 
