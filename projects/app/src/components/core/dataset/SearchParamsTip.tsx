@@ -91,13 +91,13 @@ const SearchParamsTip = ({
             </Td>
             {hasReRankModel && (
               <Td pt={0} pb={2}>
-                {usingReRank ? '✅' : '❌'}
+                {usingReRank ? '开启' : '关闭'}
               </Td>
             )}
             <Td pt={0} pb={2} fontSize={'mini'}>
-              {extensionModelName ? extensionModelName : '❌'}
+              {extensionModelName ? extensionModelName : '关闭'}
             </Td>
-            {hasEmptyResponseMode && <Th>{responseEmptyText !== '' ? '✅' : '❌'}</Th>}
+            {hasEmptyResponseMode && <Th>{responseEmptyText !== '' ? '开启' : '关闭'}</Th>}
           </Tr>
         </Tbody>
       </Table>

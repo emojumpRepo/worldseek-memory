@@ -25,22 +25,22 @@ export const scoreTheme: Record<
   }
 > = {
   '0': {
-    color: '#6F5DD7',
-    bg: '#F0EEFF',
-    borderColor: '#D3CAFF',
-    colorScheme: 'purple'
+    color: '#000',
+    bg: 'white',
+    borderColor: '#C4CBD7',
+    colorScheme: 'primary'
   },
   '1': {
-    color: '#9E53C1',
-    bg: '#FAF1FF',
-    borderColor: '#ECF',
-    colorScheme: 'pink'
+    color: '#000',
+    bg: 'white',
+    borderColor: '#C4CBD7',
+    colorScheme: 'primary'
   },
   '2': {
-    color: '#0884DD',
-    bg: '#F0FBFF',
-    borderColor: '#BCE7FF',
-    colorScheme: 'blue'
+    color: '#000',
+    bg: 'white',
+    borderColor: '#C4CBD7',
+    colorScheme: 'primary'
   }
 };
 
@@ -65,6 +65,7 @@ export const formatScore = (score: ScoreItemType[]) => {
       reRankScore = item;
     } else if (item.type === SearchScoreTypeEnum.embedding) {
       embeddingScore = item;
+      reRankScore = item;
     } else if (item.type === SearchScoreTypeEnum.fullText) {
       fullTextScore = item;
     }
@@ -115,7 +116,13 @@ const QuoteItem = ({
         display={'flex'}
         flexDirection={'column'}
       >
-        <Flex alignItems={'center'} mb={3} flexWrap={'wrap'} gap={3}>
+        <Flex
+          alignItems={'center'}
+          mb={3}
+          flexWrap={'wrap'}
+          gap={3}
+          justifyContent={'space-between'}
+        >
           {score?.primaryScore && (
             <MyTooltip label={t(SearchScoreTypeMap[score.primaryScore.type]?.desc as any)}>
               <Flex
@@ -123,7 +130,7 @@ const QuoteItem = ({
                 py={'5px'}
                 borderRadius={'md'}
                 color={'primary.700'}
-                bg={'primary.50'}
+                bg="white"
                 borderWidth={'1px'}
                 borderColor={'primary.200'}
                 alignItems={'center'}
@@ -140,41 +147,45 @@ const QuoteItem = ({
               </Flex>
             </MyTooltip>
           )}
-          {score.secondaryScore.map((item, i) => (
-            <MyTooltip key={item.type} label={t(SearchScoreTypeMap[item.type]?.desc as any)}>
-              <Box fontSize={'xs'}>
-                <Flex alignItems={'flex-start'} lineHeight={1.2} mb={1}>
-                  <Box
-                    px={'5px'}
-                    borderWidth={'1px'}
-                    borderRadius={'sm'}
-                    mr={'2px'}
-                    {...(scoreTheme[i] && scoreTheme[i])}
-                  >
-                    <Box transform={'scale(0.9)'}>#{item.index + 1}</Box>
+
+          <Box display={'flex'} alignItems={'center'} gap={3}>
+            {score.secondaryScore.map((item, i) => (
+              <MyTooltip key={item.type} label={t(SearchScoreTypeMap[item.type]?.desc as any)}>
+                <Box fontSize={'xs'}>
+                  <Flex alignItems={'flex-start'} lineHeight={1.2} mb={1}>
+                    <Box
+                      px={'5px'}
+                      borderWidth={'1px'}
+                      borderRadius={'sm'}
+                      bg="white"
+                      mr={'2px'}
+                      // {...(scoreTheme[i] && scoreTheme[i])}
+                    >
+                      <Box transform={'scale(0.9)'}>#{item.index + 1}</Box>
+                    </Box>
+                    <Box transform={'scale(0.9)'}>
+                      {t(SearchScoreTypeMap[item.type]?.label as any)}: {item.value.toFixed(4)}
+                    </Box>
+                  </Flex>
+                  <Box h={'4px'}>
+                    {SearchScoreTypeMap[item.type]?.showScore && (
+                      <Progress
+                        value={item.value * 100}
+                        h={'4px'}
+                        w={'100%'}
+                        size="sm"
+                        borderRadius={'20px'}
+                        {...(scoreTheme[i] && {
+                          colorScheme: scoreTheme[i].colorScheme
+                        })}
+                        bg="#5d5d5d"
+                      />
+                    )}
                   </Box>
-                  <Box transform={'scale(0.9)'}>
-                    {t(SearchScoreTypeMap[item.type]?.label as any)}: {item.value.toFixed(4)}
-                  </Box>
-                </Flex>
-                <Box h={'4px'}>
-                  {SearchScoreTypeMap[item.type]?.showScore && (
-                    <Progress
-                      value={item.value * 100}
-                      h={'4px'}
-                      w={'100%'}
-                      size="sm"
-                      borderRadius={'20px'}
-                      {...(scoreTheme[i] && {
-                        colorScheme: scoreTheme[i].colorScheme
-                      })}
-                      bg="#E8EBF0"
-                    />
-                  )}
                 </Box>
-              </Box>
-            </MyTooltip>
-          ))}
+              </MyTooltip>
+            ))}
+          </Box>
         </Flex>
 
         <Box flex={'1 0 0'}>
@@ -184,29 +195,33 @@ const QuoteItem = ({
 
         <Flex
           alignItems={'center'}
+          justifyContent={'space-between'}
           flexWrap={'wrap'}
           mt={3}
           gap={4}
           color={'myGray.500'}
           fontSize={'xs'}
         >
+          <Box>
+            <RawSourceBox
+              fontWeight={'bold'}
+              color={'black'}
+              collectionId={quoteItem.collectionId}
+              sourceName={quoteItem.sourceName}
+              sourceId={quoteItem.sourceId}
+              canView={canViewSource}
+              {...RawSourceBoxProps}
+            />
+            <Box flex={1} />
+          </Box>
+
           <MyTooltip label={t('common:core.dataset.Quote Length')}>
             <Flex alignItems={'center'}>
               <MyIcon name="common/text/t" w={'14px'} mr={1} color={'myGray.500'} />
               {quoteItem.q.length + (quoteItem.a?.length || 0)}
             </Flex>
           </MyTooltip>
-          <RawSourceBox
-            fontWeight={'bold'}
-            color={'black'}
-            collectionId={quoteItem.collectionId}
-            sourceName={quoteItem.sourceName}
-            sourceId={quoteItem.sourceId}
-            canView={canViewSource}
-            {...RawSourceBoxProps}
-          />
-          <Box flex={1} />
-          {quoteItem.id && canEditDataset && (
+          {/* {quoteItem.id && canEditDataset && (
             <MyTooltip label={t('common:core.dataset.data.Edit')}>
               <Box
                 className="hover-data"
@@ -233,8 +248,8 @@ const QuoteItem = ({
                 />
               </Box>
             </MyTooltip>
-          )}
-          {canEditDataset && (
+          )} */}
+          {/* {canEditDataset && (
             <Link
               as={NextLink}
               className="hover-data"
@@ -246,7 +261,7 @@ const QuoteItem = ({
               {t('chat:to_dataset')}
               <MyIcon name={'common/rightArrowLight'} w={'10px'} />
             </Link>
-          )}
+          )} */}
         </Flex>
       </MyBox>
 

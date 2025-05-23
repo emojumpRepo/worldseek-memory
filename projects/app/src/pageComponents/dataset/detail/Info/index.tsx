@@ -17,13 +17,6 @@ import { DatasetTypeEnum, DatasetTypeMap } from '@fastgpt/global/core/dataset/co
 import QuestionTip from '@fastgpt/web/components/common/MyTooltip/QuestionTip';
 import FormLabel from '@fastgpt/web/components/common/MyBox/FormLabel';
 import MyIcon from '@fastgpt/web/components/common/Icon';
-import { DatasetPermissionList } from '@fastgpt/global/support/permission/dataset/constant';
-import MemberManager from '../../MemberManager';
-import {
-  getCollaboratorList,
-  postUpdateDatasetCollaborators,
-  deleteDatasetCollaborators
-} from '@/web/core/dataset/api/collaborator';
 import DatasetTypeTag from '@/components/core/dataset/DatasetTypeTag';
 import dynamic from 'next/dynamic';
 import type { EditAPIDatasetInfoFormType } from './components/EditApiServiceModal';
@@ -51,9 +44,6 @@ const Info = ({ datasetId }: { datasetId: string }) => {
 
   const vectorModel = watch('vectorModel');
   const agentModel = watch('agentModel');
-
-  const vllmModelList = useMemo(() => getVlmModelList(), [getVlmModelList]);
-  const vlmModel = watch('vlmModel');
 
   const { ConfirmModal: ConfirmDelModal } = useConfirm({
     content: t('common:core.dataset.Delete Confirm'),
@@ -230,29 +220,6 @@ const Info = ({ datasetId }: { datasetId: string }) => {
           </Box>
         </Box>
 
-        <Box pt={5}>
-          <FormLabel fontSize={'mini'} fontWeight={'500'}>
-            {t('dataset:vllm_model')}
-          </FormLabel>
-          <Box pt={2}>
-            <AIModelSelector
-              w={'100%'}
-              value={vlmModel?.model}
-              list={vllmModelList.map((item) => ({
-                label: item.name,
-                value: item.model
-              }))}
-              fontSize={'mini'}
-              onChange={(e) => {
-                const vlmModel = vllmModelList.find((item) => item.model === e);
-                if (!vlmModel) return;
-                setValue('vlmModel', vlmModel);
-                return handleSubmit((data) => onSave({ ...data, vlmModel }))();
-              }}
-            />
-          </Box>
-        </Box>
-
         {feConfigs?.isPlus && (
           <Flex alignItems={'center'} pt={5}>
             <FormLabel fontSize={'mini'} fontWeight={'500'}>
@@ -375,44 +342,6 @@ const Info = ({ datasetId }: { datasetId: string }) => {
           </>
         )}
       </Box>
-
-      {datasetDetail.permission.hasManagePer && (
-        <>
-          <MyDivider my={4} h={'2px'} maxW={'500px'} />
-          <Box>
-            <MemberManager
-              managePer={{
-                permission: datasetDetail.permission,
-                onGetCollaboratorList: () => getCollaboratorList(datasetId),
-                permissionList: DatasetPermissionList,
-                onUpdateCollaborators: (body) =>
-                  postUpdateDatasetCollaborators({
-                    ...body,
-                    datasetId
-                  }),
-                onDelOneCollaborator: async ({ groupId, tmbId, orgId }) => {
-                  if (tmbId) {
-                    return deleteDatasetCollaborators({
-                      datasetId,
-                      tmbId
-                    });
-                  } else if (groupId) {
-                    return deleteDatasetCollaborators({
-                      datasetId,
-                      groupId
-                    });
-                  } else if (orgId) {
-                    return deleteDatasetCollaborators({
-                      datasetId,
-                      orgId
-                    });
-                  }
-                }
-              }}
-            />
-          </Box>
-        </>
-      )}
 
       <ConfirmDelModal />
       <ConfirmRebuildModal countDown={10} />

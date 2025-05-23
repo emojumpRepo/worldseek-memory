@@ -128,11 +128,11 @@ const Navbar = ({ unread }: { unread: number }) => {
                 {...(isActive
                   ? {
                       name: item.activeIcon as any,
-                      color: 'primary.600'
+                      color: 'primary.900'
                     }
                   : {
                       name: item.icon as any,
-                      color: 'myGray.400'
+                      color: 'myGray.200'
                     })}
                 width={'20px'}
                 height={'20px'}
@@ -142,7 +142,7 @@ const Navbar = ({ unread }: { unread: number }) => {
                 transform={'scale(0.9)'}
                 mt={'5px'}
                 lineHeight={1}
-                color={isActive ? 'primary.700' : 'myGray.500'}
+                color={isActive ? 'primary.900' : 'myGray.400'}
               >
                 {item.label}
               </Box>

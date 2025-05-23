@@ -386,16 +386,16 @@ function List({ setIsModalOpen }: ListProps) {
                                         }
                                       }
                                     ]
-                                  : []),
-                                ...(dataset.permission.hasManagePer
-                                  ? [
-                                      {
-                                        icon: 'key',
-                                        label: t('common:permission.Permission'),
-                                        onClick: () => setEditPerDatasetIndex(index)
-                                      }
-                                    ]
                                   : [])
+                                // ...(dataset.permission.hasManagePer
+                                //   ? [
+                                //       {
+                                //         icon: 'key',
+                                //         label: t('common:permission.Permission'),
+                                //         onClick: () => setEditPerDatasetIndex(index)
+                                //       }
+                                //     ]
+                                //   : [])
                               ]
                             },
                             ...(dataset.type != DatasetTypeEnum.folder

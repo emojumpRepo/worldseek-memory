@@ -204,9 +204,9 @@ const CollectionCard = () => {
             <Thead draggable={false}>
               <Tr>
                 <Th py={4}>{t('common:common.Name')}</Th>
+                <Th py={4}>{t('dataset:collection.Create update time')}</Th>
                 <Th py={4}>{t('dataset:collection.training_type')}</Th>
                 <Th py={4}>{t('dataset:collection_data_count')}</Th>
-                <Th py={4}>{t('dataset:collection.Create update time')}</Th>
                 <Th py={4}>{t('common:common.Status')}</Th>
                 <Th py={4}>{t('dataset:Enable')}</Th>
                 <Th py={4} />
@@ -259,6 +259,10 @@ const CollectionCard = () => {
                       <TagsPopOver currentCollection={collection} />
                     )}
                   </Td>
+                  <Td fontSize={'xs'} py={2} color={'myGray.500'}>
+                    <Box>{formatTime2YMDHM(collection.createTime)}</Box>
+                    <Box>{formatTime2YMDHM(collection.updateTime)}</Box>
+                  </Td>
                   <Td py={2}>
                     {!checkCollectionIsFolder(collection.type) ? (
                       <>
@@ -274,10 +278,6 @@ const CollectionCard = () => {
                     )}
                   </Td>
                   <Td py={2}>{collection.dataAmount || '-'}</Td>
-                  <Td fontSize={'xs'} py={2} color={'myGray.500'}>
-                    <Box>{formatTime2YMDHM(collection.createTime)}</Box>
-                    <Box>{formatTime2YMDHM(collection.updateTime)}</Box>
-                  </Td>
                   <Td py={2}>
                     <MyTooltip label={t('common:Click_to_expand')}>
                       <MyTag
@@ -300,6 +300,11 @@ const CollectionCard = () => {
                     <Switch
                       isChecked={!collection.forbid}
                       size={'sm'}
+                      _checked={{
+                        '& .chakra-switch__track': {
+                          bg: 'myPrimary.600'
+                        }
+                      }}
                       onChange={(e) =>
                         onUpdateCollection({
                           id: collection._id,
