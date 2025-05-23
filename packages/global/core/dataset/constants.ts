@@ -6,9 +6,9 @@ export enum DatasetTypeEnum {
   dataset = 'dataset',
   websiteDataset = 'websiteDataset', // depp link
   externalFile = 'externalFile',
-  apiDataset = 'apiDataset',
-  feishu = 'feishu',
-  yuque = 'yuque'
+  apiDataset = 'apiDataset'
+  // feishu = 'feishu',
+  // yuque = 'yuque'
 }
 export const DatasetTypeMap = {
   [DatasetTypeEnum.folder]: {
@@ -35,17 +35,17 @@ export const DatasetTypeMap = {
     icon: 'core/dataset/externalDatasetOutline',
     label: i18nT('dataset:api_file'),
     collectionLabel: i18nT('common:common.File')
-  },
-  [DatasetTypeEnum.feishu]: {
-    icon: 'core/dataset/feishuDatasetOutline',
-    label: i18nT('dataset:feishu_dataset'),
-    collectionLabel: i18nT('common:common.File')
-  },
-  [DatasetTypeEnum.yuque]: {
-    icon: 'core/dataset/yuqueDatasetOutline',
-    label: i18nT('dataset:yuque_dataset'),
-    collectionLabel: i18nT('common:common.File')
   }
+  // [DatasetTypeEnum.feishu]: {
+  //   icon: 'core/dataset/feishuDatasetOutline',
+  //   label: i18nT('dataset:feishu_dataset'),
+  //   collectionLabel: i18nT('common:common.File')
+  // },
+  // [DatasetTypeEnum.yuque]: {
+  //   icon: 'core/dataset/yuqueDatasetOutline',
+  //   label: i18nT('dataset:yuque_dataset'),
+  //   collectionLabel: i18nT('common:common.File')
+  // }
 };
 
 export enum DatasetStatusEnum {

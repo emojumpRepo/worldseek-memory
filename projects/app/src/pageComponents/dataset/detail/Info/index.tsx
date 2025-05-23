@@ -292,7 +292,7 @@ const Info = ({ datasetId }: { datasetId: string }) => {
           </>
         )}
 
-        {datasetDetail.type === DatasetTypeEnum.yuque && (
+        {/* {datasetDetail.type === DatasetTypeEnum.yuque && (
           <>
             <Box w={'100%'} alignItems={'center'} pt={4}>
               <Flex justifyContent={'space-between'} mb={1}>
@@ -315,9 +315,9 @@ const Info = ({ datasetId }: { datasetId: string }) => {
               <Box fontSize={'mini'}>{datasetDetail.yuqueServer?.userId}</Box>
             </Box>
           </>
-        )}
+        )} */}
 
-        {datasetDetail.type === DatasetTypeEnum.feishu && (
+        {/* {datasetDetail.type === DatasetTypeEnum.feishu && (
           <>
             <Box w={'100%'} alignItems={'center'} pt={4}>
               <Flex justifyContent={'space-between'} mb={1}>
@@ -340,7 +340,7 @@ const Info = ({ datasetId }: { datasetId: string }) => {
               <Box fontSize={'mini'}>{datasetDetail.feishuServer?.folderToken}</Box>
             </Box>
           </>
-        )}
+        )} */}
       </Box>
 
       <ConfirmDelModal />
@@ -369,9 +369,9 @@ const Info = ({ datasetId }: { datasetId: string }) => {
           onEdit={(data) =>
             updateDataset({
               id: datasetId,
-              apiServer: data.apiServer,
-              yuqueServer: data.yuqueServer,
-              feishuServer: data.feishuServer
+              apiServer: data.apiServer
+              // yuqueServer: data.yuqueServer,
+              // feishuServer: data.feishuServer
             })
           }
         />

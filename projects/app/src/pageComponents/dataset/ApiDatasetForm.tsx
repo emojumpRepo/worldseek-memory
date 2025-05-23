@@ -4,9 +4,9 @@ import { Flex, Input } from '@chakra-ui/react';
 import { UseFormReturn } from 'react-hook-form';
 import { useTranslation } from 'next-i18next';
 import type {
-  APIFileServer,
-  FeishuServer,
-  YuqueServer
+  APIFileServer
+  // FeishuServer,
+  // YuqueServer
 } from '@fastgpt/global/core/dataset/apiDataset';
 
 const ApiDatasetForm = ({
@@ -17,8 +17,8 @@ const ApiDatasetForm = ({
   form: UseFormReturn<
     {
       apiServer?: APIFileServer;
-      feishuServer?: FeishuServer;
-      yuqueServer?: YuqueServer;
+      // feishuServer?: FeishuServer;
+      // yuqueServer?: YuqueServer;
     },
     any
   >;
@@ -66,7 +66,7 @@ const ApiDatasetForm = ({
           </Flex>
         </>
       )}
-      {type === DatasetTypeEnum.feishu && (
+      {/* {type === DatasetTypeEnum.feishu && (
         <>
           <Flex mt={6}>
             <Flex
@@ -158,7 +158,7 @@ const ApiDatasetForm = ({
             />
           </Flex>
         </>
-      )}
+      )} */}
     </>
   );
 };
