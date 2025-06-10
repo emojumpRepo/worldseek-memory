@@ -132,12 +132,6 @@ const Login = ({ ChineseRedirectUrl }: { ChineseRedirectUrl: string }) => {
 
   return (
     <>
-      {feConfigs.googleClientVerKey && (
-        <Script
-          src={`https://www.recaptcha.net/recaptcha/api.js?render=${feConfigs.googleClientVerKey}`}
-        ></Script>
-      )}
-
       <Flex
         alignItems={'center'}
         justifyContent={'center'}
@@ -149,11 +143,6 @@ const Login = ({ ChineseRedirectUrl }: { ChineseRedirectUrl: string }) => {
         userSelect={'none'}
         h={'100%'}
       >
-        {isPc && (
-          <Box position={'absolute'} top={'24px'} right={'50px'}>
-            <I18nLngSelector />
-          </Box>
-        )}
         <Flex
           flexDirection={'column'}
           w={['100%', '556px']}
@@ -176,120 +165,13 @@ const Login = ({ ChineseRedirectUrl }: { ChineseRedirectUrl: string }) => {
               </Center>
             )}
           </Box>
-          {feConfigs?.concatMd && (
-            <Box
-              mt={8}
-              color={'primary.700'}
-              fontSize={'mini'}
-              fontWeight={'medium'}
-              cursor={'pointer'}
-              textAlign={'center'}
-              onClick={onOpen}
-            >
-              {t('common:support.user.login.can_not_login')}
-            </Box>
-          )}
         </Flex>
 
-        {isOpen && <CommunityModal onClose={onClose} />}
+        {/* {isOpen && <CommunityModal onClose={onClose} />} */}
       </Flex>
-
-      {showRedirect && (
-        <RedirectDrawer
-          isOpen={isOpenRedirect}
-          onClose={onCloseRedirect}
-          onRedirect={() => router.push(ChineseRedirectUrl)}
-          disableDrawer={() => setShowRedirect(false)}
-        />
-      )}
-      {isOpenCookiesDrawer && (
-        <CookiesDrawer
-          onAgree={() => {
-            setLocalCookieVersion(cookieVersion);
-            onCloseCookiesDrawer();
-          }}
-          onClose={onCloseCookiesDrawer}
-        />
-      )}
     </>
   );
 };
-
-function RedirectDrawer({
-  isOpen,
-  onClose,
-  disableDrawer,
-  onRedirect
-}: {
-  isOpen: boolean;
-  onClose: () => void;
-  disableDrawer: () => void;
-  onRedirect: () => void;
-}) {
-  const { t } = useTranslation();
-  return (
-    <Drawer placement="bottom" size={'xs'} isOpen={isOpen} onClose={onClose}>
-      <DrawerOverlay backgroundColor={'rgba(0,0,0,0.2)'} />
-      <DrawerContent py={'1.75rem'} px={'3rem'}>
-        <DrawerCloseButton size={'sm'} />
-        <Flex align={'center'} justify={'space-between'}>
-          <Box>
-            <Box color={'myGray.900'} fontWeight={'500'} fontSize={'1rem'}>
-              {t('login:Chinese_ip_tip')}
-            </Box>
-            <Box
-              color={'primary.700'}
-              fontWeight={'500'}
-              fontSize={'1rem'}
-              textDecorationLine={'underline'}
-              cursor={'pointer'}
-              onClick={disableDrawer}
-            >
-              {t('login:no_remind')}
-            </Box>
-          </Box>
-          <Button ml={'0.75rem'} onClick={onRedirect}>
-            {t('login:redirect')}
-          </Button>
-        </Flex>
-      </DrawerContent>
-    </Drawer>
-  );
-}
-
-function CookiesDrawer({ onClose, onAgree }: { onClose: () => void; onAgree: () => void }) {
-  const { t } = useTranslation();
-
-  return (
-    <Drawer placement="bottom" size={'xs'} isOpen={true} onClose={onClose}>
-      <DrawerOverlay backgroundColor={'rgba(0,0,0,0.2)'} />
-      <DrawerContent py={'1.75rem'} px={'3rem'}>
-        <DrawerCloseButton size={'sm'} />
-        <Flex align={'center'} justify={'space-between'}>
-          <Box>
-            <Box color={'myGray.900'} fontWeight={'500'} fontSize={'1rem'}>
-              {t('login:cookies_tip')}
-            </Box>
-            <Box
-              color={'primary.700'}
-              fontWeight={'500'}
-              fontSize={'1rem'}
-              textDecorationLine={'underline'}
-              cursor={'pointer'}
-              w={'fit-content'}
-              onClick={() => window.open(getDocPath('/docs/agreement/privacy/'), '_blank')}
-            >
-              {t('login:privacy_policy')}
-            </Box>
-          </Box>
-          <Button ml={'0.75rem'} onClick={onAgree}>
-            {t('login:agree')}
-          </Button>
-        </Flex>
-      </DrawerContent>
-    </Drawer>
-  );
-}
 
 export async function getServerSideProps(context: any) {
   return {

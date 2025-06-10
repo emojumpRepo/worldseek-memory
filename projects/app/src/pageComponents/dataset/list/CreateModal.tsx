@@ -234,7 +234,7 @@ const CreateModal = ({
           </Box>
         </Flex>
 
-        <Flex
+        {/* <Flex
           mt={6}
           alignItems={['flex-start', 'center']}
           justify={'space-between'}
@@ -263,7 +263,7 @@ const CreateModal = ({
               }}
             />
           </Box>
-        </Flex>
+        </Flex> */}
 
         {/* @ts-ignore */}
         <ApiDatasetForm type={type} form={form} />

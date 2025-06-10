@@ -76,7 +76,7 @@ const Dataset = () => {
   const [editFolderData, setEditFolderData] = useState<EditFolderFormType>();
   const [createDatasetType, setCreateDatasetType] = useState<CreateDatasetType>();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedType, setSelectedType] = useState<CreateDatasetType | null>(null);
+  const [selectedType, setSelectedType] = useState<CreateDatasetType>(DatasetTypeEnum.dataset);
 
   const onSelectDatasetType = useCallback(
     (e: CreateDatasetType) => {
@@ -120,21 +120,21 @@ const Dataset = () => {
         iconColor: 'blue.500',
         title: t('dataset:common_dataset'),
         description: t('dataset:common_dataset_desc')
-      },
-      {
-        type: DatasetTypeEnum.apiDataset,
-        icon: 'core/dataset/externalDatasetColor' as const,
-        iconColor: 'green.500',
-        title: t('dataset:api_file'),
-        description: t('dataset:external_file_dataset_desc')
-      },
-      {
-        type: DatasetTypeEnum.websiteDataset,
-        icon: 'core/dataset/websiteDatasetColor' as const,
-        iconColor: 'purple.500',
-        title: t('dataset:website_dataset'),
-        description: t('dataset:website_dataset_desc')
       }
+      // {
+      //   type: DatasetTypeEnum.apiDataset,
+      //   icon: 'core/dataset/externalDatasetColor' as const,
+      //   iconColor: 'green.500',
+      //   title: t('dataset:api_file'),
+      //   description: t('dataset:external_file_dataset_desc')
+      // },
+      // {
+      //   type: DatasetTypeEnum.websiteDataset,
+      //   icon: 'core/dataset/websiteDatasetColor' as const,
+      //   iconColor: 'purple.500',
+      //   title: t('dataset:website_dataset'),
+      //   description: t('dataset:website_dataset_desc')
+      // }
     ],
     [t]
   );
@@ -184,7 +184,7 @@ const Dataset = () => {
                   isOpen={isModalOpen}
                   onClose={() => {
                     setIsModalOpen(false);
-                    setSelectedType(null);
+                    setSelectedType(DatasetTypeEnum.dataset);
                   }}
                   isCentered={!isPc}
                   w={'600px'}
@@ -192,7 +192,7 @@ const Dataset = () => {
                 >
                   <ModalBody p={6}>
                     <Box mb={6}>
-                      <Grid templateColumns="repeat(3, 1fr)" gap={6}>
+                      <Grid templateColumns="repeat(1, 1fr)" gap={6}>
                         {datasetTypes.map((dataset) => (
                           <Card
                             key={dataset.type}
@@ -239,7 +239,7 @@ const Dataset = () => {
                           if (selectedType) {
                             onSelectDatasetType(selectedType as CreateDatasetType);
                             setIsModalOpen(false);
-                            setSelectedType(null);
+                            setSelectedType(DatasetTypeEnum.dataset);
                           }
                         }}
                         isDisabled={!selectedType}
